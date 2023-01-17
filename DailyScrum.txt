@@ -21,3 +21,16 @@ Rucheng:
 - do research about WPF UI design 
 3. Need assistance / figure things out
 - what features can be to note-taking application 
+
+1/17/2023 
+Shiva: 
+1. Done / not done since last scrum:
+- Checked and read about technologies mentioned in the project document
+- Looked at similar note taking apps for ideas
+- Worked on project proposal
+2. To-dos
+- Draw mockup provided by team on Figma
+- Update database tables based on new functionalities we'll decide on today
+- Discuss and decide on user stories and todo's list with team
+3. Need assistance / figure things out
+- Tables needed on the database 
