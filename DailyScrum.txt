@@ -1,1 +1,11 @@
 1/17/2023
+Niloofar:
+1-Done / not done since last scrum:
+-  I designed the app and completed the diagram
+- I watched some f the ref videos
+- I searched about the technologies going to do today
+2. To do until next Scrum:
+- create the repo
+- Meeting withn team
+3. Need assistance / figure things out
+- meeting with Gregory about the project we have chosen
