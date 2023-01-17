@@ -9,3 +9,15 @@ Niloofar:
 - Meeting withn team
 3. Need assistance / figure things out
 - meeting with Gregory about the project we have chosen
+
+1/17/2023 
+Rucheng: 
+1. Done / not done since last scrum:
+- Made database table draft
+- Searched some reference documents (WPF-markdown library/ richtext library)
+- watch tutorial video
+2. To-dos
+- Search function of a note-taking app can be used.
+- do research about WPF UI design 
+3. Need assistance / figure things out
+- what features can be to note-taking application 
