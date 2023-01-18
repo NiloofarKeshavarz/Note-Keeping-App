@@ -53,3 +53,20 @@ Niloofar:
 - Decision about the data types of the Multimedia content
 3. Need assistance / figure things out
 - meeting with Gregory about the the blob storage and different methods of the storing binary contents in DB
+
+1/18/2023 
+Rucheng: 
+1. Done / not done since last scrum:
+- Modified database diagram after team discuss
+- edit proposal
+- Did research about Material Design in XAML
+2. To-dos
+- Create XAML UI pages
+- connect to the sql server that leader has created
+- Discuss with team members about data type
+- Discuss the task assignment
+- implement CRUD operations
+
+3. Need assistance / figure things out
+- figure out how to connect multiple xaml file.
+- full-text index searching research
