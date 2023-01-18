@@ -47,10 +47,9 @@ Niloofar:
 - Connected all members to the project DB on AZURe
 2. To do until next Scrum:
 - Creation of the XAML files we need, like a MVP
-- creating the Entity classes that we need
-- Decision about the fulltext search table
-- decision about the types of storages that we can use
-- Decision about the data types of the Multimedia content
+- Search about the fulltext search table
+- Search about the types of storages that we can use
+- Search about richtext editor or other types
 3. Need assistance / figure things out
 - meeting with Gregory about the the blob storage and different methods of the storing binary contents in DB
 
