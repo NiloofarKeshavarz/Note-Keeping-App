@@ -34,3 +34,22 @@ Shiva:
 - Discuss and decide on user stories and todo's list with team
 3. Need assistance / figure things out
 - Tables needed on the database 
+
+
+1/18/2023
+Niloofar:
+1-Done / not done since last scrum:
+- Repo created and all other setup requirements
+- Connect the project to the database
+- editted the proposal  and submitted it
+- updated the user stories 
+- Did some research on Blob storages and fulltext indexing
+- Connected all members to the project DB on AZURe
+2. To do until next Scrum:
+- Creation of the XAML files we need, like a MVP
+- creating the Entity classes that we need
+- Decision about the fulltext search table
+- decision about the types of storages that we can use
+- Decision about the data types of the Multimedia content
+3. Need assistance / figure things out
+- meeting with Gregory about the the blob storage and different methods of the storing binary contents in DB
