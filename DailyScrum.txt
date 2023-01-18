@@ -69,3 +69,12 @@ Rucheng:
 3. Need assistance / figure things out
 - figure out how to connect multiple xaml file.
 - full-text index searching research
+
+1/18/2023 
+Shiva: 
+1. Done / not done since last scrum:
+- Designed UI, Implement it on Figma and add it to the Proposal
+2. To-dos
+- Create XAML file of Sign-in page and Welcome page (Home page if possible)
+3. Need assistance / figure things out
+- how to show notes in tile format in Home Page
