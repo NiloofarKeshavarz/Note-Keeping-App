@@ -61,11 +61,10 @@ Rucheng:
 - edit proposal
 - Did research about Material Design in XAML
 2. To-dos
-- Create XAML UI pages
 - connect to the sql server that leader has created
 - Discuss with team members about data type
 - Discuss the task assignment
-- implement CRUD operations
+- Create entity classes
 
 3. Need assistance / figure things out
 - figure out how to connect multiple xaml file.
