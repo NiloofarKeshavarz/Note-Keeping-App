@@ -13,7 +13,7 @@ namespace NoteKeeper
         public User()
         {
             Notes = new HashSet<Note>();
-            Tags = new HashSet<Tag>();
+            //Tags = new HashSet<Tag>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -29,7 +29,7 @@ namespace NoteKeeper
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Note> Notes { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tag> Tags { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<Tag> Tags { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace NoteKeeper
         public NoteDbContext()
             : base("name=NoteDbContext")
         {
+            Database.SetInitializer<NoteDbContext>(new DropCreateDatabaseIfModelChanges<NoteDbContext>())
         }
 
         public virtual DbSet<Note> Notes { get; set; }
@@ -32,10 +33,10 @@ namespace NoteKeeper
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Tags)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<User>()
+            //    .HasMany(e => e.Tags)
+            //    .WithRequired(e => e.User)
+            //    .WillCascadeOnDelete(false);
         }
     }
 }
