@@ -4,9 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteKeeper"
+        Title="MainWindow"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Height="370"
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="#FF410A66">
     <Grid>
-        
+        <StackPanel>
+            <Border Background="WhiteSmoke"
+                    Margin="10 20"
+                    CornerRadius="5">
+                <StackPanel Margin="25">
+                    <TextBlock HorizontalAlignment="Center"
+                               Text="Let's get you logged in">
+                    </TextBlock>
+                    <TextBox Margin="20"
+                             materialDesign:HintAssist.Hint="Username"
+                             materialDesign:HintAssist.Foreground="Green"
+                             materialDesign:TextFieldAssist.UnderlineBrush="Green"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <PasswordBox Margin="20"
+                                 materialDesign:HintAssist.Hint="Password"
+                                 materialDesign:HintAssist.Foreground="Green"
+                                 materialDesign:TextFieldAssist.UnderlineBrush="Green"
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button Margin="15 20"
+                                Content="Login" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Label Content="First time here?"
+                               Margin="0 0 0 0" />
+                        <Button Margin="-15 -5 0 0"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignFlatButton"
+                                Content="Register" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </Window>
