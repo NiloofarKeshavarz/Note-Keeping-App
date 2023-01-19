@@ -77,3 +77,16 @@ Shiva:
 - Create XAML file of Sign-in page and Welcome page (Home page if possible)
 3. Need assistance / figure things out
 - how to show notes in tile format in Home Page
+
+
+1/19/2023
+Niloofar:
+1-Done / not done since last scrum:
+- Searched about some rich text editors like DevExpress an Telerik
+- Tested free version of DevExpress and ckecked some packages and librarires
+- Searched about the types of storages that we can use
+2. To do until next Scrum:
+- Work on CRUD for notes as a  MVP
+- Search about richtext editor or other types
+3. Need assistance / figure things out
+- Check with Shiva the UI part
