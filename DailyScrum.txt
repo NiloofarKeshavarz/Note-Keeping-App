@@ -101,3 +101,14 @@ Shiva:
 - Implement register, login, change password functionalities
 3. Need assistance / figure things out
 - How to 'Implement register, login, change password functionalities' :D
+
+
+1/19/2023 Rucheng: 
+1. Done / not done since last scrum:
+- create database
+- figure out many-to-many relationship between table in entity framework
+2. To-dos
+- do research in full-text search
+- do research about rich-text  
+3. Need assistance / figure things out
+-  
