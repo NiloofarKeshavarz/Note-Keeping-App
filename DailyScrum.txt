@@ -35,6 +35,7 @@ Shiva:
 3. Need assistance / figure things out
 - Tables needed on the database 
 
+***************************
 
 1/18/2023
 Niloofar:
@@ -78,6 +79,7 @@ Shiva:
 3. Need assistance / figure things out
 - how to show notes in tile format in Home Page
 
+***************************
 
 1/19/2023
 Niloofar:
@@ -90,3 +92,12 @@ Niloofar:
 - Search about richtext editor or other types
 3. Need assistance / figure things out
 - Check with Shiva the UI part
+
+1/18/2023 
+Shiva: 
+1. Done / not done since last scrum:
+- Create login page and change password control panel with XAML
+2. To-dos
+- Implement register, login, change password functionalities
+3. Need assistance / figure things out
+- How to 'Implement register, login, change password functionalities' :D
