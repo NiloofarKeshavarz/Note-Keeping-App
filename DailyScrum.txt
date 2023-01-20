@@ -111,7 +111,8 @@ Shiva:
 - do research in full-text search
 - do research about rich-text  
 3. Need assistance / figure things out
--  
+
+***************************
 
 1/20/2023
 Niloofar:
@@ -136,3 +137,13 @@ Niloofar:
 3. Need assistance / figure things out
 -  how to update data base after model changed
 
+1/20/2023 Shiva: 
+1. Done / not done since last scrum:
+- implement login register and change password
+2. To-dos
+- implement the validation and error handling 
+- finish rich-text editor part
+3. Need assistance / figure things out
+-  with database part of the project
+
+***************************
