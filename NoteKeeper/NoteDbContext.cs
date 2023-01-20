@@ -10,7 +10,7 @@ namespace NoteKeeper
         public NoteDbContext()
             : base("name=NoteDbContext")
         {
-            Database.SetInitializer<NoteDbContext>(new DropCreateDatabaseIfModelChanges<NoteDbContext>())
+            Database.SetInitializer<NoteDbContext>(new DropCreateDatabaseIfModelChanges<NoteDbContext>());
         }
 
         public virtual DbSet<Note> Notes { get; set; }
@@ -20,7 +20,7 @@ namespace NoteKeeper
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Note>()
-                .Property(e => e.body)
+                .Property(e => e.Body)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Note>()

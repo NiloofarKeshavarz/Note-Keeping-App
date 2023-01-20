@@ -16,24 +16,24 @@ namespace NoteKeeper
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Column(TypeName = "text")]
         [Required]
-        public string body { get; set; }
+        public string Body { get; set; }
 
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
-        public DateTime creationTime { get; set; }
+        public DateTime CreationTime { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime creationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
-        public DateTime lastModificationDate { get; set; }
+        public DateTime LastModificationDate { get; set; }
 
         public virtual User User { get; set; }
 

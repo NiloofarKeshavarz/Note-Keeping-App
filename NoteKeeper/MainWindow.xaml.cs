@@ -24,6 +24,7 @@ namespace NoteKeeper
 		{
 			InitializeComponent();
 			Console.WriteLine("Hello World");
+			
 		}
 	}
 }
