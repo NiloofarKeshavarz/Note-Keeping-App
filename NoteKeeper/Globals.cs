@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +9,7 @@ namespace NoteKeeper
 	internal class Globals
 	{
 		static internal NoteDbContext dbContext;
+        static internal NoteKeeper.User activeUser;
 
-	}
+    }
 }

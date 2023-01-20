@@ -30,8 +30,8 @@ namespace NoteKeeper
         private void Register(string username, string password)
         {
             User newUser = new User();
-            newUser.username = username;
-            newUser.password = password;
+            newUser.UserName = username;
+            newUser.Password = password;
 
             using (var context = new NoteDbContext())
             {
