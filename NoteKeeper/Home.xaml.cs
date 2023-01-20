@@ -39,8 +39,8 @@ namespace NoteKeeper
 
 		private void BtnCreate_Click_1(object sender, RoutedEventArgs e)
 		{
-			
 
+			Console.WriteLine("test");
 		}
 	}
 }
