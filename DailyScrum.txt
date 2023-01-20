@@ -124,3 +124,15 @@ Niloofar:
 3. Need assistance / figure things out
 - need to watch some tutorials about joint tables in code first approach
 - some annotations don't work
+
+1/20/2023 Rucheng: 
+1. Done / not done since last scrum:
+- working on rich-text editor in WPF
+- search the way to store rich-text data into database
+2. To-dos
+- implement add note-body in rich-text editor
+- implement store note-body data in to database 
+- finish rich-text editor part
+3. Need assistance / figure things out
+-  how to update data base after model changed
+
