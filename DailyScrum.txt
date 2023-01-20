@@ -112,3 +112,15 @@ Shiva:
 - do research about rich-text  
 3. Need assistance / figure things out
 -  
+
+1/19/2023
+Niloofar:
+1-Done / not done since last scrum:
+- Still working on CRUD operations
+- Having some issues with database updating
+2. To do until next Scrum:
+- Figure out a way to update database when updating the model
+- complete the crud
+3. Need assistance / figure things out
+- need to watch some tutorials about joint tables in code first approach
+- some annotations don't work
