@@ -113,7 +113,7 @@ Shiva:
 3. Need assistance / figure things out
 -  
 
-1/19/2023
+1/20/2023
 Niloofar:
 1-Done / not done since last scrum:
 - Still working on CRUD operations
