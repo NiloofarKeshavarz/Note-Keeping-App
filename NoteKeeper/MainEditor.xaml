@@ -37,7 +37,9 @@
             </ListView>
             <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="23,19,0,0" TextWrapping="Wrap" Text="UserId" VerticalAlignment="Top" Height="20" Width="120" />
             <Label Grid.Column="0" Content="Categories " HorizontalAlignment="Left" Margin="20,57,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.394,0.394"/>
-            <Button Content="Add Note" HorizontalAlignment="Left" Margin="65,98,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" />
+            <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Left" Margin="65,98,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
+            <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="405,497,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
+            <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="556,497,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" />
 
         </Grid>
 

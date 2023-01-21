@@ -23,5 +23,15 @@ namespace NoteKeeper
 		{
 			InitializeComponent();
 		}
+
+		private void BtnNewNote_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void BtnSave_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }
