@@ -18,22 +18,45 @@ namespace NoteKeeper
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
+        private string _title;
+        private string _body;
+        private int _userId;
+        private DateTime _creationTime;
+        private DateTime _lastModifiedTime;
+
         [Required]
         [StringLength(50)]
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; }
+        }
 
         [Column(TypeName = "text")]
         [Required]
-        public string Body { get; set; }
+        public string Body
+        {
+            get { return _body; }
+            set { _body = value; }
+        }
 
-        public int UserId { get; set; }
+        public int UserId
+        {
+            get { return _userId; }
+            set { _userId = value; }
+        }
 
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime
+        {
+            get { return _creationTime; }
+            set { _creationTime = value; }
+        }
 
-        [Column(TypeName = "date")]
-        public DateTime CreationDate { get; set; }
-
-        public DateTime LastModificationDate { get; set; }
+        public DateTime LastModificationDate
+        {
+            get { return _lastModifiedTime; }
+            set { _lastModifiedTime = value; }
+        }
 
         public virtual User User { get; set; }
 

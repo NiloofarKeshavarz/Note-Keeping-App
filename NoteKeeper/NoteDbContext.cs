@@ -1,16 +1,14 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
 namespace NoteKeeper
 {
-    public partial class NoteDbContext : DbContext
+    public class NoteDbContext : DbContext
     {
         public NoteDbContext()
             : base("name=NoteDbContext")
         {
-            Database.SetInitializer<NoteDbContext>(new DropCreateDatabaseIfModelChanges<NoteDbContext>());
         }
 
         public virtual DbSet<Note> Notes { get; set; }
@@ -39,4 +37,5 @@ namespace NoteKeeper
             //    .WillCascadeOnDelete(false);
         }
     }
+
 }

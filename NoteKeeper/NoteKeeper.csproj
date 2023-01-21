@@ -86,6 +86,11 @@
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301202341116_InitMigration.cs" />
+    <Compile Include="Migrations\202301202341116_InitMigration.designer.cs">
+      <DependentUpon>202301202341116_InitMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NoteDbContext.cs" />
     <Compile Include="Tag.cs" />
@@ -142,6 +147,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202301202341116_InitMigration.resx">
+      <DependentUpon>202301202341116_InitMigration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

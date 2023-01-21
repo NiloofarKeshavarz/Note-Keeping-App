@@ -15,12 +15,23 @@ namespace NoteKeeper
             Notes = new HashSet<Note>();
         }
 
+        public Tag(string name)
+        {
+            Name = name;
+        }
+
+        private string _name;
+
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         //public int userId { get; set; }
 
