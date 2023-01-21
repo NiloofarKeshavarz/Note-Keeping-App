@@ -23,7 +23,8 @@ namespace NoteKeeper
         }
 
         [Key]
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
         private string _title;
         private string _body;

@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitMigration : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -11,22 +11,22 @@
                 "dbo.Note",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false, maxLength: 50),
                         Body = c.String(nullable: false, unicode: false, storeType: "text"),
-                        UserId = c.Int(nullable: false),
                         CreationTime = c.DateTime(nullable: false),
                         LastModificationDate = c.DateTime(nullable: false),
+                        UserId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.User", t => t.UserId)
+                .ForeignKey("dbo.User", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.Tag",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 50),
                     })
                 .PrimaryKey(t => t.Id);
@@ -35,7 +35,7 @@
                 "dbo.User",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         UserName = c.String(nullable: false, maxLength: 50),
                         Password = c.String(nullable: false),
                     })

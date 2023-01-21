@@ -86,13 +86,9 @@
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202301202341116_InitMigration.cs" />
-    <Compile Include="Migrations\202301202341116_InitMigration.designer.cs">
-      <DependentUpon>202301202341116_InitMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202301210645214_NoteTagFK.cs" />
-    <Compile Include="Migrations\202301210645214_NoteTagFK.designer.cs">
-      <DependentUpon>202301210645214_NoteTagFK.cs</DependentUpon>
+    <Compile Include="Migrations\202301211340068_init.cs" />
+    <Compile Include="Migrations\202301211340068_init.designer.cs">
+      <DependentUpon>202301211340068_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Note.cs" />
@@ -151,11 +147,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202301202341116_InitMigration.resx">
-      <DependentUpon>202301202341116_InitMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202301210645214_NoteTagFK.resx">
-      <DependentUpon>202301210645214_NoteTagFK.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202301211340068_init.resx">
+      <DependentUpon>202301211340068_init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

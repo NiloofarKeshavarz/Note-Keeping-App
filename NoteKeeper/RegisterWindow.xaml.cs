@@ -32,10 +32,12 @@ namespace NoteKeeper
             User newUser = new User();
             newUser.UserName = username;
             newUser.Password = password;
+            
 
             using (var context = new NoteDbContext())
             {
                 context.Users.Add(newUser);
+                context.SaveChanges();
             }
         }
     }
