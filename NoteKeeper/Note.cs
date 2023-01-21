@@ -7,15 +7,22 @@ namespace NoteKeeper
     using System.Data.Entity.Spatial;
 
     [Table("Note")]
-    public partial class Note
+    public class Note
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Note()
         {
-            Tags = new HashSet<Tag>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Note(string title, string body, DateTime creationTime, DateTime lastModificationDate, int userId)
+        {
+            Title = title;
+            Body = body;
+            CreationTime = creationTime;
+            LastModificationDate = lastModificationDate;
+            UserId = userId;
+        }
+
+        [Key]
         public int Id { get; set; }
 
         private string _title;
@@ -40,12 +47,6 @@ namespace NoteKeeper
             set { _body = value; }
         }
 
-        public int UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
-
         public DateTime CreationTime
         {
             get { return _creationTime; }
@@ -58,9 +59,10 @@ namespace NoteKeeper
             set { _lastModifiedTime = value; }
         }
 
-        public virtual User User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tag> Tags { get; set; }
+        //Navigation Properties
+        public ICollection<Tag> Tags { get; set; }
     }
 }

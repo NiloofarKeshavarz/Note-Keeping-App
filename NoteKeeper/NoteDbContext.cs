@@ -17,24 +17,12 @@ namespace NoteKeeper
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Note>()
-                .Property(e => e.Body)
-                .IsUnicode(false);
-
+            
             modelBuilder.Entity<Note>()
                 .HasMany(e => e.Tags)
                 .WithMany(e => e.Notes)
                 .Map(m => m.ToTable("NoteTag").MapLeftKey("noteId").MapRightKey("tagId"));
 
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Notes)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(e => e.Tags)
-            //    .WithRequired(e => e.User)
-            //    .WillCascadeOnDelete(false);
         }
     }
 
