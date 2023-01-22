@@ -86,6 +86,9 @@
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainEditor.xaml.cs">
+      <DependentUpon>MainEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202301211340068_init.cs" />
     <Compile Include="Migrations\202301211340068_init.designer.cs">
       <DependentUpon>202301211340068_init.cs</DependentUpon>
@@ -107,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
