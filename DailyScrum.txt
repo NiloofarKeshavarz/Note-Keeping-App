@@ -160,3 +160,16 @@ Niloofar:
 3. Need assistance / figure things out
 - Pdf generation 
 - saving images
+
+1/21/2023
+Rucheng:
+1-Done / not done since last scrum:
+- figure out entity framework many to many relationship
+- save richtext data to database
+- rich text editor UI and font property control
+- LINQ  contains search
+2. To do until next Scrum:
+-  insert data to junction table
+-   search note by tag
+3. Need assistance / figure things out
+
