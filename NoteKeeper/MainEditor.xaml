@@ -56,7 +56,7 @@
                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="23,19,0,0" TextWrapping="Wrap" Text="UserId" VerticalAlignment="Top" Height="20" FontWeight="Medium"  FontSize="16" Width="120" />
                 <Button x:Name="btnSearchByTag" Content="Search By Tag" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
                 <Button x:Name="btnSearchByTitle" Content="Search By Title" HorizontalAlignment="Left" Margin="23,141,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
-                <Button x:Name="btnSearchByNote" Content="Search By Title" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
+                <Button x:Name="btnSearchByNote" Content="Search By Note" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
 
                 <Label Name="LblCategory" Grid.Column="0" Content="Categories " HorizontalAlignment="Left" Margin="20,57,0,0" VerticalAlignment="Top" FontWeight="Medium" FontSize="16" Width="100" RenderTransformOrigin="0.394,0.394"/>
 
@@ -75,12 +75,16 @@
 
             <TextBox Name="TxbTitle" Grid.Column="2" Margin="121,23,187,435" BorderThickness="1" BorderBrush="purple"></TextBox>
             <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
-            <TextBox x:Name="TxbTag" Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>
+            <ComboBox Name="cmbTag" Grid.Column="2" HorizontalAlignment="Left" Margin="121,81,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.212,-0.041" TextBoxBase.TextChanged="cmbTag_TextChanged">
+                
+            </ComboBox>
+            <!--<TextBox x:Name="TxbTag" Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>-->
             <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
             <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="16,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
             <Button Name="BtnClear" Content="Clear" HorizontalAlignment="Left" Margin="145,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnClear_Click" />
             <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="518,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
             <Button Name="BtnPrint" Content="Print" HorizontalAlignment="Left" Margin="400,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnPrint_Click" />
+            
         </Grid>
 
     </DockPanel>
