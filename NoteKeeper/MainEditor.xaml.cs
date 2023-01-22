@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -282,6 +283,23 @@ namespace NoteKeeper
 
 			}
 		}
+        //FIXME:
+        private void InsertImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.InitialDirectory = @"C:\\";
+            fd.Filter = "PNG (*.png) |*.png | JPEG(*.jpg;*jpeg)";
+
+            if(fd.ShowDialog() == true)
+            {
+                var clipBoardData = Clipboard.GetDataObject();
+                BitmapImage bitmapImage= new BitmapImage(new Uri(fd.FileName, UriKind.Absolute));
+                Clipboard.SetImage(bitmapImage);
+               // TextBox.Paste(); //
+                Clipboard.SetDataObject(clipBoardData);
+
+            }
+        }
     }
 
 
