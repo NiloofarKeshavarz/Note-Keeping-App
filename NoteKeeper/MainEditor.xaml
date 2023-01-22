@@ -4,6 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteKeeper"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
         mc:Ignorable="d"  ResizeMode="NoResize" 
         Title="MainEditor" Height="620" Width="1200">
     <DockPanel>
@@ -15,17 +21,36 @@
                 <ColumnDefinition Width="1.4*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
+            <!-- toolbar-->
+            <ToolBarTray Margin="16,126,24,378" Grid.Column="2" Background="Transparent">
+                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}" Margin="0,0,-2,-58">
+                    <Button Content="{materialDesign:PackIcon Kind=ContentSave}" ToolTip="Save" />
+                    <Separator />
+                    <Button Command="Cut" Content="{materialDesign:PackIcon Kind=ContentCut}" ToolBar.OverflowMode="AsNeeded" ToolTip="Cut" />
+                    <Button Command="Copy" Content="{materialDesign:PackIcon Kind=ContentCopy}" ToolBar.OverflowMode="AsNeeded" ToolTip="Copy that stuff" />
+                    <Separator />
+                    <Button Command="Paste"  Content="{materialDesign:PackIcon Kind=ContentPaste}" ToolBar.OverflowMode="AsNeeded" ToolTip="Paste some stuff" />
+                    <Separator />
+                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatBold}" Command="EditingCommands.ToggleBold" Name="btnBold" Width="50"/>
+                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatItalic}" Command="EditingCommands.ToggleItalic" Name="btnItalic" Width="50"/>
+                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatUnderline}" Command="EditingCommands.ToggleUnderline" Name="btnUnderline" Width="50"/>
+                    <Separator />
+                    <Label  VerticalAlignment="Center"  Content="Font size:" />
+                    <ComboBox Name="cmbFontSize" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged"/>
+                </ToolBar>
+            </ToolBarTray>
+            <!-- toolbar-->
             <Border Grid.Column="2" DockPanel.Dock="Right" BorderBrush="Purple" BorderThickness="1">
 
-                <RichTextBox Name="RtxbNewNote" Grid.Column="2" Margin="9,130,21,0" Height="281" VerticalAlignment="Top">
+                <RichTextBox BorderThickness="1" BorderBrush="purple" Name="RtxbNewNote" Grid.Column="2" Margin="9,185,21,0" Height="226" VerticalAlignment="Top">
                     <FlowDocument>
                         <Paragraph>
-                          <!--  <Run Text="{Binding ElementName=RtxbNewNote, Path=Text}"/>-->
+                            <!--  <Run Text="{Binding ElementName=RtxbNewNote, Path=Text}"/>-->
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
             </Border>
-           <Grid>
+            <Grid>
 
                 <TextBox Name="TxbSearch" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="23,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"   BorderThickness="1" BorderBrush="purple"/>
                 <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="23,19,0,0" TextWrapping="Wrap" Text="UserId" VerticalAlignment="Top" Height="20" FontWeight="Medium"  FontSize="16" Width="120" />
@@ -33,7 +58,7 @@
 
 
                 <Label Name="LblCategory" Grid.Column="0" Content="Categories " HorizontalAlignment="Left" Margin="20,57,0,0" VerticalAlignment="Top" FontWeight="Medium" FontSize="16" Width="100" RenderTransformOrigin="0.394,0.394"/>
-                
+
 
             </Grid>
             <ListView Name="LvNote" Grid.Column="1" Margin="10,86,10,10"  SelectionMode="Single" SelectionChanged="LvNote_SelectionChanged" >
@@ -46,9 +71,9 @@
             </ListView>
 
             <Label Name="LblTitle" Grid.Column="2" Content="Title " HorizontalAlignment="Left" Margin="16,25,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
-            
-            <TextBox Grid.Column="2" Margin="121,23,106,435" BorderThickness="1" BorderBrush="purple"></TextBox>
-            <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="17,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
+
+            <TextBox Grid.Column="2" Margin="121,23,187,435" BorderThickness="1" BorderBrush="purple"></TextBox>
+            <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
             <TextBox Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>
             <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
             <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="19,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
