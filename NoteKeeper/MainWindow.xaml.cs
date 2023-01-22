@@ -51,8 +51,8 @@ namespace NoteKeeper
                     if (user != null)
                     {
                         Globals.activeUser = user;
-                        Home homeWindow = new Home();
-                        homeWindow.Show();
+                        MainEditor mainEditor = new MainEditor();
+                        mainEditor.Show();
                         this.Close();
                     }
                     else
