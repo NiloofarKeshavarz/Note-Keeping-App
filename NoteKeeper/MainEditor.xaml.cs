@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace NoteKeeper
@@ -29,7 +30,7 @@ namespace NoteKeeper
 			try
 			{
 				Globals.dbContext = new NoteDbContext();
-				lvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+				LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
 			}
 			catch (SystemException ex)
 			{
@@ -53,8 +54,31 @@ namespace NoteKeeper
 
 		}
 
-		private void lvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			
+			Note currentNote = LvNote.SelectedItem as Note;
+			if (currentNote == null)
+			{
+				FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run("")));
+				RtxbNewNote.Document = flowDoc;
+				Console.WriteLine("it is  null");
+			}
+			else
+			{
+				
+				Console.WriteLine(currentNote.Body);
+				RtxbNewNote.Document = new FlowDocument(new Paragraph(new Run(currentNote.Body)));
+			}
+
+
+		}
+
+		private void BtnDelete_Click(object sender, RoutedEventArgs e)
+		{
+
+			Note currentSelPer = LvNote.SelectedItem as Note;
+
 
 		}
 	}

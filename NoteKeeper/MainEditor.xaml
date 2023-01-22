@@ -20,7 +20,7 @@
                 <RichTextBox Name="RtxbNewNote" Grid.Column="2" Margin="9,130,21,0" Height="281" VerticalAlignment="Top">
                     <FlowDocument>
                         <Paragraph>
-                            <Run Text="RichTextBox"/>
+                          <!--  <Run Text="{Binding ElementName=RtxbNewNote, Path=Text}"/>-->
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
@@ -36,7 +36,7 @@
                 
 
             </Grid>
-            <ListView Name="lvNote" Grid.Column="1" Margin="10,86,10,10"  SelectionMode="Single" SelectionChanged="lvNote_SelectionChanged" >
+            <ListView Name="LvNote" Grid.Column="1" Margin="10,86,10,10"  SelectionMode="Single" SelectionChanged="LvNote_SelectionChanged" >
                 <ListView.View >
                     <GridView  >
                         <GridViewColumn  Width="120" DisplayMemberBinding="{Binding Title}" />
@@ -52,7 +52,7 @@
             <TextBox Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>
             <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
             <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="19,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
-            <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="147,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" />
+            <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="147,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
 
         </Grid>
 
