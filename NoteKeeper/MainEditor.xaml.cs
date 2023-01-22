@@ -120,10 +120,11 @@ namespace NoteKeeper
             return m;
         }
 
-        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
 		{
 
-			Note currentSelPer = LvNote.SelectedItem as Note;
+			TextRange txt = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+			txt.Text = "";
 
 		}
 
