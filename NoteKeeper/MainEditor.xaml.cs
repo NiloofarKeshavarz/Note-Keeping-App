@@ -94,7 +94,62 @@ namespace NoteKeeper
 			}
         }
 
-		private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            //fetch data from SQL database
+            List<Note> noteList = (from n in Globals.dbContext.Notes where n.UserId == Globals.activeUser.Id select n).ToList<Note>();
+            List<Note> ListViewNote = new List<Note>();
+            //search by title
+            if (sender == btnSearchByTitle)
+            {
+                foreach (Note note in noteList)
+                {
+                    if (note.Title.Contains(TxbSearch.Text))
+                    {
+                        ListViewNote.Add(note);
+                    }
+                }
+            }
+
+            //search by tag
+            //if (sender == btnSearchByTag)
+            //{
+            //    foreach (Tag tag in Globals.dbContext.Tags)
+            //    {
+            //        if (tag.Name.Contains(TxbSearch.Text))
+            //        {
+            //            var id = tag.Id;
+            //            var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
+            //            foreach (Note n in NoteList)
+            //            {
+            //                ListViewNote.Add(n);
+            //            }
+            //        }
+            //    }
+            //}
+
+
+            //search by body
+            if (sender == btnSearchByTag)
+            {
+                foreach (Note note in noteList)
+                {
+                    if (note.Body.Contains(TxbSearch.Text) && note.UserId == Globals.activeUser.Id)
+                    {
+                        ListViewNote.Add(note);
+                    };
+                }
+
+            }
+
+
+
+            LvNote.ItemsSource = ListViewNote;
+
+        }
+
+        private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             var note = LvNote.SelectedItem as Note;
             if(note != null) { 
