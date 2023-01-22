@@ -147,3 +147,16 @@ Niloofar:
 -  with database part of the project
 
 ***************************
+1/21/2023
+Niloofar:
+1-Done / not done since last scrum:
+- Updated the database all over again
+- Still working on CRUD operations and validation
+- facing so many database issues--- a LOTTTTTTT
+- Worked on the UI of Main Editor windows
+2. To do until next Scrum:
+-  complete the crud
+- works on image part if I had time
+3. Need assistance / figure things out
+- Pdf generation 
+- saving images
