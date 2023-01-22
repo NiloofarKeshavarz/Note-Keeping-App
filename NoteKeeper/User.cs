@@ -9,7 +9,7 @@ namespace NoteKeeper
     [Table("User")]
     public class User
     {
-       
+
         public User()
         {
         }
@@ -29,14 +29,16 @@ namespace NoteKeeper
 
         [Required]
         [StringLength(50)]
-        public string UserName {
+        public string UserName
+        {
             get { return _userName; }
             set { _userName = value; }
         }
 
         [Required]
         [Column(TypeName = "nvarchar(MAX)")]
-        public string Password {
+        public string Password
+        {
             get { return _password; }
             set { _password = value; }
         }

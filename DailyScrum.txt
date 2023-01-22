@@ -173,3 +173,14 @@ Rucheng:
 -   search note by tag
 3. Need assistance / figure things out
 
+1/21/2023
+Shiva:
+1-Done / not done since last scrum:
+- Worked on MainEditor UI
+- Tried to figure out validation for usernames/passwords (omg!validation's giving me a headache!)
+2. To do until next Scrum:
+- Finish up UI tweaks
+- Review projects requirements and take care of what's left
+Need help:
+3. Need assistance / figure things out
+
