@@ -79,6 +79,8 @@ namespace NoteKeeper
             note.Tags.Add(tag);
 
             Globals.dbContext.SaveChanges();
+			LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+			LvNote.Items.Refresh();
             ResetField();
         }
 
@@ -128,9 +130,14 @@ namespace NoteKeeper
 
 		}
 
+		private void BtnDelete_Click(object sender, RoutedEventArgs e)
+		{
 
-        // rich text editor
-        private void richTxt_SelectionChanged(object sender, RoutedEventArgs e)
+		}
+
+
+		// rich text editor
+		private void richTxt_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
             object temp = RtxbNewNote.Selection.GetPropertyValue(Inline.FontWeightProperty);
@@ -173,7 +180,9 @@ namespace NoteKeeper
             //    };
             //}
         }
-    }
+
+		
+	}
 
 
 

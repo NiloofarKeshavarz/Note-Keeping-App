@@ -78,7 +78,7 @@
             <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
             <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="19,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
             <Button Name="BtnClear" Content="Clear" HorizontalAlignment="Left" Margin="147,426,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnClear_Click" />
-
+            <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="518,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
         </Grid>
 
     </DockPanel>
