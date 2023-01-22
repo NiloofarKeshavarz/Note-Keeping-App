@@ -31,7 +31,7 @@ namespace NoteKeeper
 			try
 			{
 				Globals.dbContext = new NoteDbContext();
-				LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+				LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
 			}
 			catch (SystemException ex)
 			{
@@ -56,6 +56,8 @@ namespace NoteKeeper
 			FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run(""))); // After this constructor is called, the new RichTextBox rtb will contain flowDoc. RichTextBox rtb = new RichTextBox(flowDoc);
 			RtxbNewNote.Document = flowDoc;
 			FlowDocument rtbContents = RtxbNewNote.Document;
+            TxbTitle.Text = "";
+            TxbTag.Text = "";
 
 		}
 
@@ -81,7 +83,7 @@ namespace NoteKeeper
                 note.Tags.Add(tag);
 
                 Globals.dbContext.SaveChanges();
-                LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+                LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
                 LvNote.Items.Refresh();
                 ResetField();
             }
@@ -93,28 +95,29 @@ namespace NoteKeeper
 
 		private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-            TxbTitle.Text = (LvNote.SelectedItem as Note).Title;
+            var note = LvNote.SelectedItem as Note;
+            if(note != null) { 
+			TxbTitle.Text = (note).Title; //ex : nullRefrenceException
             TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-            string selectedNote = (LvNote.SelectedItem as Note).Body;
+            string selectedNote = (note).Body;
 
             //convert string to MemoryStream 
             MemoryStream ms = GetMemoryStreamFromString(selectedNote);
             tr.Load(ms, DataFormats.Rtf);
 
-   //         Note currentNote = LvNote.SelectedItem as Note;
-			//if (currentNote == null)
-			//{
-			//	FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run("")));
-			//	RtxbNewNote.Document = flowDoc;
-			//	Console.WriteLine("it is  null");
-			//}
-			//else
-			//{
-				
-			//	Console.WriteLine(currentNote.Body);
-			//	RtxbNewNote.Document = new FlowDocument(new Paragraph(new Run(currentNote.Body)));
-			//}
 
+                // TODO: load Tag ???
+                //note.Tags.FirstOrDefault().Name;
+                try
+                {
+                    TxbTag.Text = note.Tags.FirstOrDefault().Name; //ex : nullRefrence TODO: if statement
+                }
+                catch(NullReferenceException ex)    
+                {
+                    //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Console.WriteLine(ex);
+				}
+			}
 
 		}
 
@@ -139,8 +142,26 @@ namespace NoteKeeper
 
 		private void BtnDelete_Click(object sender, RoutedEventArgs e)
 		{
+            try { 
 
+            Note selectedNote = LvNote.SelectedItem as Note;
+			
+				if (selectedNote != null)
+			{
+                    Globals.dbContext.Notes.Remove(selectedNote);
+					Globals.dbContext.SaveChanges();
+					}
+			notes.Remove(selectedNote);
+			LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+			LvNote.Items.Refresh();
+            ResetField();
 		}
+			catch(SystemException ex)
+			{
+				MessageBox.Show(this, "Error deleting from database\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
+	}
 
 
 		// rich text editor
