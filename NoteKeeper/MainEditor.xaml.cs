@@ -61,27 +61,34 @@ namespace NoteKeeper
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
-            TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-            MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Rtf);
-            string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+            try
+            {
+                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                MemoryStream ms = new MemoryStream();
+                tr.Save(ms, DataFormats.Rtf);
+                string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
 
 
-            Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, 2);
-            Globals.dbContext.Notes.Add(note);
-            //Globals.dbContext.Notes.Attach(note);
+                Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, 2);
+                Globals.dbContext.Notes.Add(note);
+                //Globals.dbContext.Notes.Attach(note);
 
-            Tag tag = new Tag(TxbTag.Text);
-            Globals.dbContext.Tags.Add(tag);
-            //Globals.dbContext.Tags.Attach(tag);
+                Tag tag = new Tag(TxbTag.Text);
+                Globals.dbContext.Tags.Add(tag);
+                //Globals.dbContext.Tags.Attach(tag);
 
-            note.Tags = new List<Tag>();
-            note.Tags.Add(tag);
+                note.Tags = new List<Tag>();
+                note.Tags.Add(tag);
 
-            Globals.dbContext.SaveChanges();
-			LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
-			LvNote.Items.Refresh();
-            ResetField();
+                Globals.dbContext.SaveChanges();
+                LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+                LvNote.Items.Refresh();
+                ResetField();
+            }
+            catch(SystemException ex)
+            {
+				MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
         }
 
 		private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
