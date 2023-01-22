@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace NoteKeeper
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -34,27 +31,37 @@ namespace NoteKeeper
         }
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-
+            RegisterWindow RegisterWindow = new RegisterWindow();
+            RegisterWindow.Show();
+            this.Close();
         }
+
 
         private void Login(string username, string password)
         {
-            using (var context = new NoteDbContext())
+            if (Validation.GetHasError(TbxUsername) || Validation.GetHasError(TbxPassword))
             {
-                var user = context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
-                if (user != null)
+                MessageBox.Show("Please correct the errors.");
+            }
+            else
+            {
+                using (var context = new NoteDbContext())
                 {
-                    Globals.activeUser = user;
-                    Home homeWindow = new Home();
-                    homeWindow.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid username or password");
+                    var user = context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+                    if (user != null)
+                    {
+                        Globals.activeUser = user;
+                        Home homeWindow = new Home();
+                        homeWindow.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid username or password");
+                    }
                 }
             }
-        }
 
+        }
     }
 }
