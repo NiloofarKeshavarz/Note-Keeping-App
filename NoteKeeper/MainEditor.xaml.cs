@@ -51,6 +51,7 @@ namespace NoteKeeper
 
         }
 
+
         private void BtnNewNote_Click(object sender, RoutedEventArgs e)
 		{
 			FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run(""))); // After this constructor is called, the new RichTextBox rtb will contain flowDoc. RichTextBox rtb = new RichTextBox(flowDoc);
@@ -209,8 +210,24 @@ namespace NoteKeeper
             //}
         }
 
-		
-	}
+		private void BtnPrint_Click(object sender, RoutedEventArgs e)
+		{
+			PrintDialog pd = new PrintDialog();
+			if ((pd.ShowDialog() == true))
+
+			{
+
+				//use either one of them    
+
+				pd.PrintVisual(RtxbNewNote as Visual, "Print Visual");
+
+				pd.PrintDocument((((IDocumentPaginatorSource)RtxbNewNote.Document).DocumentPaginator),
+
+					"Print RichtextBox Content");
+
+			}
+		}
+    }
 
 
 
