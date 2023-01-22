@@ -33,6 +33,7 @@ namespace NoteKeeper
 			{
 				Globals.dbContext = new NoteDbContext();
 				LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
+                //LvNote.ItemsSource = (from Note n in Globals.dbContext.Notes where n.UserId == Globals.activeUser.Id select n).ToList();
 			}
 			catch (SystemException ex)
 			{
@@ -41,13 +42,19 @@ namespace NoteKeeper
 
 			}
             cmbFontSize.ItemsSource = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+            List<string> comboSource = new List<string>();
+            foreach (Tag tag in Globals.dbContext.Tags)
+            {
+                comboSource.Add(tag.Name);
+            }
+            cmbTag.ItemsSource = comboSource;
+
         }
 
         // Will clean up the richTextBox
         private void ResetField()
         {
             TxbTitle.Text = string.Empty;
-            TxbTag.Text = string.Empty;
             RtxbNewNote.Document.Blocks.Clear();
 
         }
@@ -59,7 +66,7 @@ namespace NoteKeeper
 			RtxbNewNote.Document = flowDoc;
 			FlowDocument rtbContents = RtxbNewNote.Document;
             TxbTitle.Text = "";
-            TxbTag.Text = "";
+           
 
 		}
 
@@ -67,32 +74,38 @@ namespace NoteKeeper
 		{
             try
             {
-                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-                MemoryStream ms = new MemoryStream();
-                tr.Save(ms, DataFormats.Rtf);
-                string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+                Note selectNote = LvNote.SelectedItem as Note;
+                
+                Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
+                
+                if (noteToUpdate != null)
+                {
+                    noteToUpdate.Title = TxbTitle.Text;
+                    
+                    TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                    MemoryStream ms = new MemoryStream();
+                    tr.Save(ms, DataFormats.Rtf);
+                    string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+                    
+                    noteToUpdate.Body = NoteBodyData;
+                    noteToUpdate.LastModificationDate = DateTime.Now;
 
-
-                Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, 2);
-                Globals.dbContext.Notes.Add(note);
-                //Globals.dbContext.Notes.Attach(note);
-
-                Tag tag = new Tag(TxbTag.Text);
-                Globals.dbContext.Tags.Add(tag);
-                //Globals.dbContext.Tags.Attach(tag);
-
-                note.Tags = new List<Tag>();
-                note.Tags.Add(tag);
+                    Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
+                    noteToUpdate.Tags = new List<Tag>();
+                    noteToUpdate.Tags.Add(tag);
+                    Globals.dbContext.Notes.Add(noteToUpdate);
+                    Globals.dbContext.SaveChanges();
+                }
 
                 Globals.dbContext.SaveChanges();
                 LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
                 LvNote.Items.Refresh();
                 ResetField();
             }
-            catch(SystemException ex)
+            catch (SystemException ex)
             {
-				MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+                MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -153,30 +166,35 @@ namespace NoteKeeper
         private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             var note = LvNote.SelectedItem as Note;
-            if(note != null) { 
-			TxbTitle.Text = (note).Title; //ex : nullRefrenceException
-            TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-            string selectedNote = (note).Body;
+            if (note != null)
+            {
+                TxbTitle.Text = (note).Title; //ex : nullRefrenceException
+                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                string selectedNote = (note).Body;
 
-            //convert string to MemoryStream 
-            MemoryStream ms = GetMemoryStreamFromString(selectedNote);
-            tr.Load(ms, DataFormats.Rtf);
+                //convert string to MemoryStream 
+                MemoryStream ms = GetMemoryStreamFromString(selectedNote);
+                tr.Load(ms, DataFormats.Rtf);
 
 
                 // TODO: load Tag ???
                 //note.Tags.FirstOrDefault().Name;
                 try
                 {
-                    TxbTag.Text = note.Tags.FirstOrDefault().Name; //ex : nullRefrence TODO: if statement
+
+                    //TxbTag.Text = note.Tags.FirstOrDefault().Name; //ex : nullRefrence TODO: if statement
+                    //cmbTag.SelectedItem = (from tag in Globals.dbContext.Tags
+                    //                       where tag.Notes.Any(n => n.Id == tag.Id)
+                    //                       select tag).FirstOrDefault<Tag>().Name.ToString(); //ex : nullRefrence TODO: if statement
                 }
-                catch(NullReferenceException ex)    
+                catch (NullReferenceException ex)
                 {
                     //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     Console.WriteLine(ex);
-				}
-			}
+                }
+            }
 
-		}
+        }
 
         public MemoryStream GetMemoryStreamFromString(string s)
         {
@@ -240,6 +258,10 @@ namespace NoteKeeper
             RtxbNewNote.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
         }
 
+        private void cmbTag_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //fetch data from SQL database
