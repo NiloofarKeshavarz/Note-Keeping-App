@@ -8,19 +8,26 @@
         Title="Profile" Height="450" Width="800">
     <DockPanel>
         <Grid>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border BorderBrush="Purple" BorderThickness="1">
                 <local:ChangePassword Grid.Row="1" Grid.Column="0" />
+                
             </Border>
         </Grid>
         <Border BorderBrush="Purple" BorderThickness="1">
+
             <Grid>
-                <TextBox Name="TxbSearch" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="31,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="299"   BorderThickness="1" BorderBrush="purple" Height="135"/>
-                <TextBlock  HorizontalAlignment="Left" Margin="31,70,0,0" TextWrapping="Wrap" Text="Have You Heared This:" VerticalAlignment="Top" Height="28" FontWeight="Medium" Foreground="Purple" FontSize="20" Width="242" RenderTransformOrigin="0.523,1.728" />
+                <TextBlock  HorizontalAlignment="Left" Margin="31,70,0,0" TextWrapping="Wrap" Text="Have You Heard This?" VerticalAlignment="Top" Height="28" FontWeight="Medium" Foreground="Purple" FontSize="20" Width="242" RenderTransformOrigin="0.523,1.728" />
+                <Label Name="LblQoute" Grid.Column="0" BorderThickness="1" BorderBrush="purple"  HorizontalAlignment="Left" Margin="31,132,0,0" VerticalAlignment="Top" FontWeight="Medium" FontSize="16" Width="304" Height="133"/>
+                <TextBlock x:Name="myTextBlock" Loaded="myTextBlock_Loaded"/>
             </Grid>
         </Border>
+       
+        
     </DockPanel>
+    
 </Window>
