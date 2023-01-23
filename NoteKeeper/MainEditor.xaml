@@ -1,87 +1,145 @@
-﻿<Window x:Class="NoteKeeper.MainEditor"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NoteKeeper"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="{materialDesign:MaterialDesignFont}"
-        mc:Ignorable="d"  ResizeMode="NoResize" 
-        Title="MainEditor" Height="620" Width="1200">
-    <DockPanel>
+﻿<Controls:MetroWindow x:Class="NoteKeeper.MainEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:NoteKeeper"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Background="{DynamicResource MaterialDesignPaper}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    FontFamily="{materialDesign:MaterialDesignFont}"
+    mc:Ignorable="d"  ResizeMode="NoResize"
+    Title="MainEditor" Height="620" Width="1200">
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="HamburgerOptionsMenuItem" DataType="{x:Type Controls:HamburgerMenuIconItem}">
+                <DockPanel Height="48" LastChildFill="True">
+                    <ContentControl x:Name="IconPart"
+                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=CompactPaneLength}"
+                            Content="{Binding Icon}" DockPanel.Dock="Left" Focusable="False" IsTabStop="False" />
+                    <TextBlock x:Name="TextPart" VerticalAlignment="Center" FontSize="16" Text="{Binding Label}" />
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger
+                            Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=PanePlacement}"
+                            Value="Right">
+                        <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="TextPart" Property="Margin" Value="8,0,0,0" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Controls:HamburgerMenu x:Name="HamburgerMenuControl" DisplayMode="CompactOverlay" HamburgerWidth="48"
+            ItemInvoked="HamburgerMenuControl_ItemInvoked"
+            OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}">
+        <!--  Options  -->
+        <Controls:HamburgerMenu.OptionsItemsSource>
+            <Controls:HamburgerMenuItemCollection>
 
-        <Grid  Margin="19,50,19,50" >
+                <Controls:HamburgerMenuIconItem Label="Profile">
+                    <Controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22" Height="22" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Kind="UserSolid" />
+                    </Controls:HamburgerMenuIconItem.Icon>
+                    <Controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28"
+                                FontWeight="Bold">
+                            Profile
+                        </TextBlock>
+                    </Controls:HamburgerMenuIconItem.Tag>
+                </Controls:HamburgerMenuIconItem>
+                <Controls:HamburgerMenuIconItem Label="About">
+                    <Controls:HamburgerMenuIconItem.Icon>
+                        <iconPacks:PackIconFontAwesome Width="22" Height="22" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Kind="InfoCircleSolid" />
+                    </Controls:HamburgerMenuIconItem.Icon>
+                    <Controls:HamburgerMenuIconItem.Tag>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28"
+                                FontWeight="Bold">
+                            About
+                        </TextBlock>
+                    </Controls:HamburgerMenuIconItem.Tag>
+                </Controls:HamburgerMenuIconItem>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1.4*" />
-                <ColumnDefinition Width="3*" />
-            </Grid.ColumnDefinitions>
-            <!-- toolbar-->
-            <ToolBarTray Margin="16,126,24,378" Grid.Column="2" Background="Transparent">
-                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}" Margin="0,0,-2,-58">
-                    <Button Content="{materialDesign:PackIcon Kind=ContentSave}" ToolTip="Save" />
-                    <Separator />
-                    <Button Command="Cut" Content="{materialDesign:PackIcon Kind=ContentCut}" ToolBar.OverflowMode="AsNeeded" ToolTip="Cut" />
-                    <Button Command="Copy" Content="{materialDesign:PackIcon Kind=ContentCopy}" ToolBar.OverflowMode="AsNeeded" ToolTip="Copy that stuff" />
-                    <Separator />
-                    <Button Command="Paste"  Content="{materialDesign:PackIcon Kind=ContentPaste}" ToolBar.OverflowMode="AsNeeded" ToolTip="Paste some stuff" />
-                    <Separator />
-                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatBold}" Command="EditingCommands.ToggleBold" Name="btnBold" Width="50"/>
-                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatItalic}" Command="EditingCommands.ToggleItalic" Name="btnItalic" Width="50"/>
-                    <ToggleButton Content="{materialDesign:PackIcon Kind=FormatUnderline}" Command="EditingCommands.ToggleUnderline" Name="btnUnderline" Width="50"/>
-                    <Separator />
-                    <Label  VerticalAlignment="Center"  Content="Font size:" />
-                    <ComboBox Name="cmbFontSize" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged"/>
-                </ToolBar>
-            </ToolBarTray>
-            <!-- toolbar-->
-            <Border Grid.Column="2" DockPanel.Dock="Right" BorderBrush="Purple" BorderThickness="1">
+            </Controls:HamburgerMenuItemCollection>
+        </Controls:HamburgerMenu.OptionsItemsSource>
 
-                <RichTextBox BorderThickness="1" BorderBrush="purple" Name="RtxbNewNote" Grid.Column="2" Margin="9,185,21,0" Height="226" VerticalAlignment="Top">
-                    <FlowDocument>
-                        <Paragraph>
-                            <!--  <Run Text="{Binding ElementName=RtxbNewNote, Path=Text}"/>-->
-                        </Paragraph>
-                    </FlowDocument>
-                </RichTextBox>
-            </Border>
-            <Grid>
+        <DockPanel>
 
-                <TextBox Name="TxbSearch" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="23,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"   BorderThickness="1" BorderBrush="purple"/>
-                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="23,19,0,0" TextWrapping="Wrap" Text="UserId" VerticalAlignment="Top" Height="20" FontWeight="Medium"  FontSize="16" Width="120" />
-                <Button x:Name="btnSearchByTag" Content="Search By Tag" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
-                <Button x:Name="btnSearchByTitle" Content="Search By Title" HorizontalAlignment="Left" Margin="23,141,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
-                <Button x:Name="btnSearchByNote" Content="Search By Title" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
+            <Grid  Margin="19,50,19,50" >
 
-                <Label Name="LblCategory" Grid.Column="0" Content="Categories " HorizontalAlignment="Left" Margin="20,57,0,0" VerticalAlignment="Top" FontWeight="Medium" FontSize="16" Width="100" RenderTransformOrigin="0.394,0.394"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1.4*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <!-- toolbar-->
+                <ToolBarTray Margin="16,126,24,378" Grid.Column="2" Background="Transparent">
+                    <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}" Margin="0,0,-2,-58">
+                        <Button Content="{materialDesign:PackIcon Kind=ContentSave}" ToolTip="Save" />
+                        <Separator />
+                        <Button Command="Cut" Content="{materialDesign:PackIcon Kind=ContentCut}" ToolBar.OverflowMode="AsNeeded" ToolTip="Cut" />
+                        <Button Command="Copy" Content="{materialDesign:PackIcon Kind=ContentCopy}" ToolBar.OverflowMode="AsNeeded" ToolTip="Copy that stuff" />
+                        <Separator />
+                        <Button Command="Paste"  Content="{materialDesign:PackIcon Kind=ContentPaste}" ToolBar.OverflowMode="AsNeeded" ToolTip="Paste some stuff" />
+                        <Separator />
+                        <ToggleButton Content="{materialDesign:PackIcon Kind=FormatBold}" Command="EditingCommands.ToggleBold" Name="btnBold" Width="50"/>
+                        <ToggleButton Content="{materialDesign:PackIcon Kind=FormatItalic}" Command="EditingCommands.ToggleItalic" Name="btnItalic" Width="50"/>
+                        <ToggleButton Content="{materialDesign:PackIcon Kind=FormatUnderline}" Command="EditingCommands.ToggleUnderline" Name="btnUnderline" Width="50"/>
+                        <Separator />
+                        <Label  VerticalAlignment="Center"  Content="Font size:" />
+                        <ComboBox Name="cmbFontSize" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged"/>
+                    </ToolBar>
+                </ToolBarTray>
+                <!-- toolbar-->
+                <Border Grid.Column="2" DockPanel.Dock="Right" BorderBrush="Purple" BorderThickness="1">
+
+                    <RichTextBox BorderThickness="1" BorderBrush="purple" Name="RtxbNewNote" Grid.Column="2" Margin="9,185,21,0" Height="226" VerticalAlignment="Top">
+                        <FlowDocument>
+                            <Paragraph>
+                                <!--  <Run Text="{Binding ElementName=RtxbNewNote, Path=Text}"/>-->
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </Border>
+                <Grid>
+
+                    <TextBox Name="TxbSearch" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="23,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141"   BorderThickness="1" BorderBrush="purple"/>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="23,19,0,0" TextWrapping="Wrap" Text="UserId" VerticalAlignment="Top" Height="20" FontWeight="Medium"  FontSize="16" Width="120" />
+                    <Button x:Name="btnSearchByTag" Content="Search By Tag" HorizontalAlignment="Left" Margin="23,179,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
+                    <Button x:Name="btnSearchByTitle" Content="Search By Title" HorizontalAlignment="Left" Margin="23,141,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
+                    <Button x:Name="btnSearchByNote" Content="Search By Title" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="28" Width="141" Click="BtnSearch_Click" />
+
+                    <Label Name="LblCategory" Grid.Column="0" Content="Categories " HorizontalAlignment="Left" Margin="20,57,0,0" VerticalAlignment="Top" FontWeight="Medium" FontSize="16" Width="100" RenderTransformOrigin="0.394,0.394"/>
 
 
+                </Grid>
+                <ListView Name="LvNote" Grid.Column="1" Margin="10,86,10,10"  SelectionMode="Single" SelectionChanged="LvNote_SelectionChanged" >
+                    <ListView.View >
+                        <GridView  >
+                            <GridViewColumn  Width="120" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn  Width="120" DisplayMemberBinding="{Binding CreationTime}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Label Name="LblTitle" Grid.Column="2" Content="Title " HorizontalAlignment="Left" Margin="16,25,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
+
+                <TextBox Name="TxbTitle" Grid.Column="2" Margin="121,23,187,435" BorderThickness="1" BorderBrush="purple"></TextBox>
+                <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
+                <TextBox x:Name="TxbTag" Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>
+                <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
+                <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="16,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
+                <Button Name="BtnClear" Content="Clear" HorizontalAlignment="Left" Margin="145,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnClear_Click" />
+                <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="518,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
+                <Button Name="BtnPrint" Content="Print" HorizontalAlignment="Left" Margin="400,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnPrint_Click" />
             </Grid>
-            <ListView Name="LvNote" Grid.Column="1" Margin="10,86,10,10"  SelectionMode="Single" SelectionChanged="LvNote_SelectionChanged" >
-                <ListView.View >
-                    <GridView  >
-                        <GridViewColumn  Width="120" DisplayMemberBinding="{Binding Title}" />
-                        <GridViewColumn  Width="120" DisplayMemberBinding="{Binding CreationTime}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
 
-            <Label Name="LblTitle" Grid.Column="2" Content="Title " HorizontalAlignment="Left" Margin="16,25,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
-
-            <TextBox Name="TxbTitle" Grid.Column="2" Margin="121,23,187,435" BorderThickness="1" BorderBrush="purple"></TextBox>
-            <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
-            <TextBox x:Name="TxbTag" Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>
-            <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
-            <Button Name="BtnSave" Content="Save" HorizontalAlignment="Left" Margin="16,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnSave_Click" />
-            <Button Name="BtnClear" Content="Clear" HorizontalAlignment="Left" Margin="145,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnClear_Click" />
-            <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="518,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
-            <Button Name="BtnPrint" Content="Print" HorizontalAlignment="Left" Margin="400,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnPrint_Click" />
-        </Grid>
-
-    </DockPanel>
-</Window>
+        </DockPanel>
+    </Controls:HamburgerMenu>
+</Controls:MetroWindow>

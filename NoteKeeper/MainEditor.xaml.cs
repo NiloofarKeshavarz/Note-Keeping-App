@@ -15,30 +15,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
+using MahApps.Metro.Controls;
 
 namespace NoteKeeper
 {
-	/// <summary>
-	/// Interaction logic for MainEditor.xaml
-	/// </summary>
-	public partial class MainEditor : Window
-	{
+    /// <summary>
+    /// Interaction logic for MainEditor.xaml
+    /// </summary>
+    public partial class MainEditor : MetroWindow
+    {
 
-		List<Note> notes = new List<Note>();
-		public MainEditor()
-		{
-			InitializeComponent();
-			try
-			{
-				Globals.dbContext = new NoteDbContext();
-				LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
-			}
-			catch (SystemException ex)
-			{
-				MessageBox.Show(this, "Connection failed" + ex.Message, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				Environment.Exit(1);
+        List<Note> notes = new List<Note>();
+        public MainEditor()
+        {
+            InitializeComponent();
+            try
+            {
+                Globals.dbContext = new NoteDbContext();
+                LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
+            }
+            catch (SystemException ex)
+            {
+                MessageBox.Show(this, "Connection failed" + ex.Message, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
 
-			}
+            }
             cmbFontSize.ItemsSource = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
         }
 
@@ -53,17 +54,17 @@ namespace NoteKeeper
 
 
         private void BtnNewNote_Click(object sender, RoutedEventArgs e)
-		{
-			FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run(""))); // After this constructor is called, the new RichTextBox rtb will contain flowDoc. RichTextBox rtb = new RichTextBox(flowDoc);
-			RtxbNewNote.Document = flowDoc;
-			FlowDocument rtbContents = RtxbNewNote.Document;
+        {
+            FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run(""))); // After this constructor is called, the new RichTextBox rtb will contain flowDoc. RichTextBox rtb = new RichTextBox(flowDoc);
+            RtxbNewNote.Document = flowDoc;
+            FlowDocument rtbContents = RtxbNewNote.Document;
             TxbTitle.Text = "";
             TxbTag.Text = "";
 
-		}
+        }
 
-		private void BtnSave_Click(object sender, RoutedEventArgs e)
-		{
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
             try
             {
                 TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
@@ -90,8 +91,8 @@ namespace NoteKeeper
             }
             catch(SystemException ex)
             {
-				MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+                MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -150,16 +151,16 @@ namespace NoteKeeper
         }
 
         private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
+        {
             var note = LvNote.SelectedItem as Note;
-            if(note != null) { 
-			TxbTitle.Text = (note).Title; //ex : nullRefrenceException
-            TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-            string selectedNote = (note).Body;
+            if(note != null) {
+                TxbTitle.Text = (note).Title; //ex : nullRefrenceException
+                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                string selectedNote = (note).Body;
 
-            //convert string to MemoryStream 
-            MemoryStream ms = GetMemoryStreamFromString(selectedNote);
-            tr.Load(ms, DataFormats.Rtf);
+                //convert string to MemoryStream 
+                MemoryStream ms = GetMemoryStreamFromString(selectedNote);
+                tr.Load(ms, DataFormats.Rtf);
 
 
                 // TODO: load Tag ???
@@ -172,10 +173,10 @@ namespace NoteKeeper
                 {
                     //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     Console.WriteLine(ex);
-				}
-			}
+                }
+            }
 
-		}
+        }
 
         public MemoryStream GetMemoryStreamFromString(string s)
         {
@@ -189,39 +190,39 @@ namespace NoteKeeper
         }
 
         private void BtnClear_Click(object sender, RoutedEventArgs e)
-		{
+        {
 
-			TextRange txt = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-			txt.Text = "";
+            TextRange txt = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+            txt.Text = "";
 
-		}
+        }
 
-		private void BtnDelete_Click(object sender, RoutedEventArgs e)
-		{
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
             try { 
 
-            Note selectedNote = LvNote.SelectedItem as Note;
-			
-				if (selectedNote != null)
-			{
+                Note selectedNote = LvNote.SelectedItem as Note;
+
+                if (selectedNote != null)
+                {
                     Globals.dbContext.Notes.Remove(selectedNote);
-					Globals.dbContext.SaveChanges();
-					}
-			notes.Remove(selectedNote);
-			LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
-			LvNote.Items.Refresh();
-            ResetField();
-		}
+                    Globals.dbContext.SaveChanges();
+                }
+                notes.Remove(selectedNote);
+                LvNote.ItemsSource = Globals.dbContext.Notes.ToList();
+                LvNote.Items.Refresh();
+                ResetField();
+            }
 			catch(SystemException ex)
-			{
-				MessageBox.Show(this, "Error deleting from database\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
-		}
+            {
+                MessageBox.Show(this, "Error deleting from database\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-	}
+        }
 
 
-		// rich text editor
-		private void richTxt_SelectionChanged(object sender, RoutedEventArgs e)
+        // rich text editor
+        private void richTxt_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
             object temp = RtxbNewNote.Selection.GetPropertyValue(Inline.FontWeightProperty);
@@ -265,23 +266,45 @@ namespace NoteKeeper
             //}
         }
 
-		private void BtnPrint_Click(object sender, RoutedEventArgs e)
-		{
-			PrintDialog pd = new PrintDialog();
-			if ((pd.ShowDialog() == true))
+        private void BtnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog pd = new PrintDialog();
+            if ((pd.ShowDialog() == true))
 
-			{
+            {
 
-				//use either one of them    
+                //use either one of them    
 
-				pd.PrintVisual(RtxbNewNote as Visual, "Print Visual");
+                pd.PrintVisual(RtxbNewNote as Visual, "Print Visual");
 
-				pd.PrintDocument((((IDocumentPaginatorSource)RtxbNewNote.Document).DocumentPaginator),
+                pd.PrintDocument((((IDocumentPaginatorSource)RtxbNewNote.Document).DocumentPaginator),
 
-					"Print RichtextBox Content");
+                    "Print RichtextBox Content");
 
-			}
-		}
+            }
+        }
+
+        private void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        {
+            if (e.InvokedItem is HamburgerMenuItem menuItem)
+            {
+                switch (menuItem.Label)
+                {
+                    case "About":
+                        break;
+                    case "Profile":
+                        Profile profile = new Profile();
+                        profile.Owner = this;
+                        profile.ShowDialog();
+                        break;
+                }
+            }
+            if (HamburgerMenuControl.IsPaneOpen)
+            {
+                HamburgerMenuControl.IsPaneOpen = false;
+            }
+            e.Handled = true;
+        }
     }
 
 
