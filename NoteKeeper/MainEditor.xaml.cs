@@ -193,17 +193,21 @@ namespace NoteKeeper
                 //note.Tags.FirstOrDefault().Name;
                 try
                 {
-
-                    //TxbTag.Text = note.Tags.FirstOrDefault().Name; //ex : nullRefrence TODO: if statement
-                    //cmbTag.SelectedItem = (from tag in Globals.dbContext.Tags
-                    //                       where tag.Notes.Any(n => n.Id == tag.Id)
-                    //                       select tag).FirstOrDefault<Tag>().Name.ToString(); //ex : nullRefrence TODO: if statement
+                    
+                    Tag t = (from tag in Globals.dbContext.Tags where tag.Notes.Any(y => y.Id == note.Id) select tag).First<Tag>();
+                        cmbTag.SelectedIndex = t.Id - 1;
+                   
                 }
-                catch (NullReferenceException ex)
+                catch (SystemException ex)
                 {
-                    //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     Console.WriteLine(ex);
+                    cmbTag.SelectedIndex = -1;
                 }
+                //catch (NullReferenceException ex)
+                //{
+                //    //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //    Console.WriteLine(ex);
+                //}
             }
 
         }
