@@ -40,33 +40,27 @@ namespace NoteKeeper
             string username = TbxUsername.Text;
             string password = TbxPassword.Password;
 
-            using (var context = new NoteDbContext())
+            try
             {
-                var user = context.Users.FirstOrDefault(u => u.UserName == username);
-                if (user != null)
+                using (var context = new NoteDbContext())
                 {
-                    user.Password = password;
-                    context.SaveChanges();
-                    MessageBox.Show("Password updated successfully.", "Change Password", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var user = context.Users.FirstOrDefault(u => u.UserName == username);
+                    if (user != null)
+                    {
+                        user.Password = password;
+                        context.SaveChanges();
+                        MessageBox.Show("Password updated successfully.", "Change Password", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
+            }
+            catch (SystemException ex)
+            {
+                MessageBox.Show("Error reading from database\n" + ex.Message, "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
             }
 
             TbxPassword.Password = "";
             TbxRetypePassword.Password = "";
-        }
-
-        private void UpdatePassword(string username, string newPassword)
-        {
-            using (var context = new NoteDbContext())
-            {
-                var user = context.Users.FirstOrDefault(u => u.UserName == username);
-                if (user != null)
-                {
-                    user.Password = newPassword;
-                    context.SaveChanges();
-                    MessageBox.Show("Password updated successfully.");
-                }
-            }
         }
 
         private bool validate()

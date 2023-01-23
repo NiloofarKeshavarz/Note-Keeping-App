@@ -43,20 +43,28 @@ namespace NoteKeeper
             string username = TbxUsername.Text;
             string password = TbxPassword.Password;
 
-            using (var context = new NoteDbContext())
+            try
             {
-                var user = context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
-                if (user != null)
+                using (var context = new NoteDbContext())
                 {
-                    Globals.activeUser = user;
-                    MainEditor mainEditor = new MainEditor();
-                    mainEditor.Show();
-                    this.Close();
+                    var user = context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+                    if (user != null)
+                    {
+                        Globals.activeUser = user;
+                        MainEditor mainEditor = new MainEditor();
+                        mainEditor.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid username or password");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Invalid username or password");
-                }
+            }
+            catch (SystemException ex)
+            {
+                MessageBox.Show(this, "Error reading from database\n" + ex.Message, "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
             }
         }
 

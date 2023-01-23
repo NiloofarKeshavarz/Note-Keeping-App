@@ -52,14 +52,21 @@ namespace NoteKeeper
             newUser.UserName = TbxUsername.Text;
             newUser.Password = TbxPassword.Password;
 
-            using (var context = new NoteDbContext())
+            try
             {
-                context.Users.Add(newUser);
-                context.SaveChanges();
-                MessageBox.Show(this, "New user successfully registered!\nYou can login now!", "Register User", MessageBoxButton.OK, MessageBoxImage.Information);
-                OpenLoginWindow();
+                using (var context = new NoteDbContext())
+                {
+                    context.Users.Add(newUser);
+                    context.SaveChanges();
+                    MessageBox.Show(this, "New user successfully registered!\nYou can login now!", "Register User", MessageBoxButton.OK, MessageBoxImage.Information);
+                    OpenLoginWindow();
+                }
             }
-
+            catch (SystemException ex)
+            {
+                MessageBox.Show(this, "Error storing data in database\n" + ex.Message, "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
         }
 
         private bool validate()
@@ -87,13 +94,21 @@ namespace NoteKeeper
 
             if (string.IsNullOrEmpty(error))
             {
-                using (var context = new NoteDbContext())
+                try
                 {
-                    var oldUser = context.Users.FirstOrDefault(u => u.UserName == user.UserName);
-                    if (oldUser != null)
+                    using (var context = new NoteDbContext())
                     {
-                        error = "UserName is already taken!";
+                        var oldUser = context.Users.FirstOrDefault(u => u.UserName == user.UserName);
+                        if (oldUser != null)
+                        {
+                            error = "UserName is already taken!";
+                        }
                     }
+                }
+                catch (SystemException ex)
+                {
+                    MessageBox.Show(this, "Error reading from database\n" + ex.Message, "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Environment.Exit(1);
                 }
             }
 
