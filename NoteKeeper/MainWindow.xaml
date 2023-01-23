@@ -19,12 +19,6 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
-    <Window.Resources>
-        <local:User x:Key="userData" />
-    </Window.Resources>
-    <Window.DataContext>
-        <Binding Source="{StaticResource userData}" />
-    </Window.DataContext>
     <Grid>
         <StackPanel>
             <Border Margin="10,20"
@@ -38,22 +32,15 @@
                              materialDesign:HintAssist.Foreground="Green"
                              materialDesign:HintAssist.Hint="Username"
                              materialDesign:TextFieldAssist.UnderlineBrush="Green"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                        <TextBox.Text>
-                            <Binding Path="UserName"
-                                     UpdateSourceTrigger="LostFocus">
-                                <Binding.ValidationRules>
-                                    <local:NotEmptyValidationRule />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             LostFocus="TbxUsername_LostFocus"/>
                     <PasswordBox Name="TbxPassword"
                                  Margin="20"
                                  materialDesign:HintAssist.Foreground="Green"
                                  materialDesign:HintAssist.Hint="Password"
                                  materialDesign:TextFieldAssist.UnderlineBrush="Green"
-                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                 LostFocus="TbxPassword_LostFocus"/>
                     <StackPanel HorizontalAlignment="Center"
                                 Orientation="Horizontal">
                         <Button Margin="15,20"
