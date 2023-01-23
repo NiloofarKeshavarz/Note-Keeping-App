@@ -35,8 +35,8 @@ namespace NoteKeeper
             try
             {
                 Globals.dbContext = new NoteDbContext();
-                LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
-                //LvNote.ItemsSource = (from Note n in Globals.dbContext.Notes where n.UserId == Globals.activeUser.Id select n).ToList();
+                //LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
+                LvNote.ItemsSource = (from Note n in Globals.dbContext.Notes where n.UserId == Globals.activeUser.Id select n).ToList();
             }
             catch (SystemException ex)
             {
