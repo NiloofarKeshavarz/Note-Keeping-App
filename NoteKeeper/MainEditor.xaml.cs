@@ -31,7 +31,11 @@ namespace NoteKeeper
         public MainEditor()
         {
             InitializeComponent();
-            this.TblUser.Text = Globals.activeUser.UserName;
+            String username = Globals.activeUser?.UserName;
+            if (username != null)
+            {
+                this.HmiProfile.Label = username.Substring(0, 1).ToUpper() + username.Substring(1);
+            }
             try
             {
                 Globals.dbContext = new NoteDbContext();
@@ -347,23 +351,20 @@ namespace NoteKeeper
 
         private void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            if (e.InvokedItem is HamburgerMenuItem menuItem)
+            if (e.InvokedItem == HmiLogout)
             {
-                switch (menuItem.Label)
-                {
-                    case "Logout":
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
-                        this.Close();
-                        Globals.activeUser = null;
-                        break;
-                    case "Profile":
-                        Profile profile = new Profile();
-                        profile.Owner = this;
-                        profile.ShowDialog();
-                        break;
-                }
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+                Globals.activeUser = null;
             }
+            else if (e.InvokedItem == HmiProfile)
+            {
+                Profile profile = new Profile();
+                profile.Owner = this;
+                profile.ShowDialog();
+            } 
+
             if (HamburgerMenuControl.IsPaneOpen)
             {
                 HamburgerMenuControl.IsPaneOpen = false;
