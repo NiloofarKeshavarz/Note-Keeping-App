@@ -23,6 +23,40 @@ namespace NoteKeeper
         public ChangePassword()
         {
             InitializeComponent();
+            this.TblUserName.Text = Globals.activeUser?.UserName;
+        }
+
+        private void BtnChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validation.GetHasError(TbxPassword) || Validation.GetHasError(TbxRetypePassword))
+            {
+                MessageBox.Show("Please correct the errors.");
+                return;
+            }
+            String username = TblUserName.Text;
+            String password = TbxPassword.Password;
+            String retypePassword = TbxRetypePassword.Password;
+            if (password != retypePassword)
+            {
+                MessageBox.Show("Password and Repeat Password doesn't match!");
+                return;
+            }
+            
+            UpdatePassword(username, password);
+        }
+
+        private void UpdatePassword(string username, string newPassword)
+        {
+            using (var context = new NoteDbContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.UserName == username);
+                if (user != null)
+                {
+                    user.Password = newPassword;
+                    context.SaveChanges();
+                    MessageBox.Show("Password updated successfully.");
+                }
+            }
         }
     }
 }

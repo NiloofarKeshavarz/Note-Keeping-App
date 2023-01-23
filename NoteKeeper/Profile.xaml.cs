@@ -15,14 +15,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
+using MahApps.Metro.Controls;
 
 namespace NoteKeeper
 {
 	/// <summary>
 	/// Interaction logic for Profile.xaml
 	/// </summary>
-	public partial class Profile : Window
-	{
+	public partial class Profile : MetroWindow
+    {
 		public Profile()
 		{
 			InitializeComponent();
