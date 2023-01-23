@@ -25,14 +25,8 @@
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <!-- toolbar-->
-            <ToolBarTray Margin="16,126,24,378" Grid.Column="2" Background="Transparent">
-                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}" Margin="0,0,-2,-58">
-                    <Button Content="{materialDesign:PackIcon Kind=ContentSave}" ToolTip="Save" />
-                    <Separator />
-                    <Button Command="Cut" Content="{materialDesign:PackIcon Kind=ContentCut}" ToolBar.OverflowMode="AsNeeded" ToolTip="Cut" />
-                    <Button Command="Copy" Content="{materialDesign:PackIcon Kind=ContentCopy}" ToolBar.OverflowMode="AsNeeded" ToolTip="Copy that stuff" />
-                    <Separator />
-                    <Button Command="Paste"  Content="{materialDesign:PackIcon Kind=ContentPaste}" ToolBar.OverflowMode="AsNeeded" ToolTip="Paste some stuff" />
+            <ToolBarTray Margin="16,126,10,378" Grid.Column="2" Background="Transparent">
+                <ToolBar ClipToBounds="False" Style="{StaticResource MaterialDesignToolBar}" Margin="0,0,-14,-58">
                     <Separator />
                     <ToggleButton Content="{materialDesign:PackIcon Kind=FormatBold}" Command="EditingCommands.ToggleBold" Name="btnBold" Width="50"/>
                     <ToggleButton Content="{materialDesign:PackIcon Kind=FormatItalic}" Command="EditingCommands.ToggleItalic" Name="btnItalic" Width="50"/>
@@ -44,7 +38,6 @@
             </ToolBarTray>
             <!-- toolbar-->
             <Border Grid.Column="2" DockPanel.Dock="Right" BorderBrush="Purple" BorderThickness="1">
-
                 <RichTextBox BorderThickness="1" BorderBrush="purple" Name="RtxbNewNote" Grid.Column="2" Margin="9,185,21,0" Height="226" VerticalAlignment="Top">
                     <FlowDocument>
                         <Paragraph>
