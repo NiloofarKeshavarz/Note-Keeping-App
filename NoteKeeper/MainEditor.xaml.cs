@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,7 @@ namespace NoteKeeper
         {
             TxbTitle.Text = string.Empty;
             RtxbNewNote.Document.Blocks.Clear();
+            cmbTag.SelectedIndex = -1;
 
         }
 
@@ -74,30 +76,41 @@ namespace NoteKeeper
 		{
             try
             {
-                Note selectNote = LvNote.SelectedItem as Note;
-                
-                Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
-                
-                if (noteToUpdate != null)
-                {
-                    noteToUpdate.Title = TxbTitle.Text;
-                    
-                    TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-                    MemoryStream ms = new MemoryStream();
-                    tr.Save(ms, DataFormats.Rtf);
-                    string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
-                    
-                    noteToUpdate.Body = NoteBodyData;
-                    noteToUpdate.LastModificationDate = DateTime.Now;
+                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                MemoryStream ms = new MemoryStream();
+                tr.Save(ms, DataFormats.Rtf);
+                string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+                Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
 
-                    Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
-                    noteToUpdate.Tags = new List<Tag>();
-                    noteToUpdate.Tags.Add(tag);
-                    Globals.dbContext.Notes.Add(noteToUpdate);
+                Note selectNote = LvNote.SelectedItem as Note;
+
+                if (selectNote == null)
+                {
+                    Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, Globals.activeUser.Id);
+                    note.Tags = new List<Tag>();
+                    note.Tags.Add(tag);
+                    Globals.dbContext.Notes.Add(note);
                     Globals.dbContext.SaveChanges();
                 }
 
-                Globals.dbContext.SaveChanges();
+                else
+                {
+
+                    Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
+
+                    if (noteToUpdate != null)
+                    {
+                        noteToUpdate.Title = TxbTitle.Text;
+                        noteToUpdate.Body = NoteBodyData;
+                        noteToUpdate.LastModificationDate = DateTime.Now;
+
+                        noteToUpdate.Tags = new List<Tag>();
+                        noteToUpdate.Tags.Add(tag);
+                        Globals.dbContext.Notes.AddOrUpdate(noteToUpdate);
+                        Globals.dbContext.SaveChanges();
+                    }
+
+                }
                 LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
                 LvNote.Items.Refresh();
                 ResetField();
@@ -127,21 +140,20 @@ namespace NoteKeeper
             }
 
             //search by tag
-            //if (sender == btnSearchByTag)
-            //{
-            //    foreach (Tag tag in Globals.dbContext.Tags)
-            //    {
-            //        if (tag.Name.Contains(TxbSearch.Text))
-            //        {
-            //            var id = tag.Id;
-            //            var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
-            //            foreach (Note n in NoteList)
-            //            {
-            //                ListViewNote.Add(n);
-            //            }
-            //        }
-            //    }
-            //}
+            if (sender == btnSearchByTag)
+            {
+                foreach (Tag tag in Globals.dbContext.Tags)
+                {
+                    if (tag.Name.Contains(TxbSearch.Text))
+                    {
+                        var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
+                        foreach (Note n in NoteList)
+                        {
+                            ListViewNote.Add(n);
+                        }
+                    }
+                }
+            }
 
 
             //search by body
@@ -261,31 +273,6 @@ namespace NoteKeeper
         private void cmbTag_TextChanged(object sender, TextChangedEventArgs e)
         {
             
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //fetch data from SQL database
-            List<Note> noteList = (from n in Globals.dbContext.Notes where n.UserId == 2 select n).ToList<Note>(); //FIX need to get UserId
-            List<Note> ListViewNote = new List<Note>();
-            List<string> SQLDataList = new List<string>();
-
-            //search by title
-            foreach (Note note in noteList)
-            {
-                if (note.Title.Contains(TxbSearch.Text))
-                {
-                    ListViewNote.Add(note);
-                }
-            }
-
-            //search by body
-            //foreach (Note note in noteList)
-            //{
-            //    if (note.Body.Contains(TxbSearch.Text))
-            //    {
-            //        ListViewNote.Add(note);
-            //    };
-            //}
         }
 
 		private void BtnPrint_Click(object sender, RoutedEventArgs e)
