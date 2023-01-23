@@ -31,6 +31,7 @@ namespace NoteKeeper
         public MainEditor()
         {
             InitializeComponent();
+            this.TblUser.Text = Globals.activeUser.UserName;
             try
             {
                 Globals.dbContext = new NoteDbContext();
@@ -321,7 +322,11 @@ namespace NoteKeeper
             {
                 switch (menuItem.Label)
                 {
-                    case "About":
+                    case "Logout":
+                        MainWindow mainWindow = new MainWindow();
+                        mainWindow.Show();
+                        this.Close();
+                        Globals.activeUser = null;
                         break;
                     case "Profile":
                         Profile profile = new Profile();
