@@ -59,21 +59,24 @@ namespace NoteKeeper
         }
 
         // Will clean up the richTextBox
-        private void ResetField()
+        public Boolean ResetField()
         {
             TxbTitle.Text = string.Empty;
             RtxbNewNote.Document.Blocks.Clear();
             cmbTag.SelectedIndex = -1;
+            return true;
 
         }
 
 
-        private void BtnNewNote_Click(object sender, RoutedEventArgs e)
+        public void BtnNewNote_Click(object sender, RoutedEventArgs e)
         {
             FlowDocument flowDoc = new FlowDocument(new Paragraph(new Run(""))); // After this constructor is called, the new RichTextBox rtb will contain flowDoc. RichTextBox rtb = new RichTextBox(flowDoc);
             RtxbNewNote.Document = flowDoc;
             FlowDocument rtbContents = RtxbNewNote.Document;
             TxbTitle.Text = "";
+            LvNote.SelectedItem = false;
+
 
 
         }
