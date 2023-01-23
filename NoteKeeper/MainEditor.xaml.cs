@@ -78,44 +78,52 @@ namespace NoteKeeper
         {
             try
             {
-                TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
-                MemoryStream ms = new MemoryStream();
-                tr.Save(ms, DataFormats.Rtf);
-                string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
-                Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
-
-                Note selectNote = LvNote.SelectedItem as Note;
-
-                if (selectNote == null)
+                if (IsNoteValid(out string error))
                 {
-                    Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, Globals.activeUser.Id);
-                    note.Tags = new List<Tag>();
-                    note.Tags.Add(tag);
-                    Globals.dbContext.Notes.Add(note);
-                    Globals.dbContext.SaveChanges();
-                }
+                    TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
+                    MemoryStream ms = new MemoryStream();
+                    tr.Save(ms, DataFormats.Rtf);
+                    string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+                    Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
 
-                else
-                {
+                    Note selectNote = LvNote.SelectedItem as Note;
 
-                    Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
-
-                    if (noteToUpdate != null)
+                    if (selectNote == null)
                     {
-                        noteToUpdate.Title = TxbTitle.Text;
-                        noteToUpdate.Body = NoteBodyData;
-                        noteToUpdate.LastModificationDate = DateTime.Now;
-
-                        noteToUpdate.Tags = new List<Tag>();
-                        noteToUpdate.Tags.Add(tag);
-                        Globals.dbContext.Notes.AddOrUpdate(noteToUpdate);
+                        Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, Globals.activeUser.Id);
+                        note.Tags = new List<Tag>();
+                        note.Tags.Add(tag);
+                        Globals.dbContext.Notes.Add(note);
                         Globals.dbContext.SaveChanges();
                     }
 
+                    else
+                    {
+
+                        Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
+
+                        if (noteToUpdate != null)
+                        {
+                            noteToUpdate.Title = TxbTitle.Text;
+                            noteToUpdate.Body = NoteBodyData;
+                            noteToUpdate.LastModificationDate = DateTime.Now;
+
+                            noteToUpdate.Tags = new List<Tag>();
+                            noteToUpdate.Tags.Add(tag);
+                            Globals.dbContext.Notes.AddOrUpdate(noteToUpdate);
+                            Globals.dbContext.SaveChanges();
+                        }
+
+                    }
+                    LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
+                    LvNote.Items.Refresh();
+                    ResetField();
                 }
-                LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
-                LvNote.Items.Refresh();
-                ResetField();
+                else
+                {
+                    TxbTitle.Text = error;
+
+                }
             }
             catch (SystemException ex)
             {
@@ -123,6 +131,26 @@ namespace NoteKeeper
             }
         }
 
+        //Note validation
+        private bool IsNoteValid(out string error)
+        {
+            error = null;
+            if (TxbTitle.Text.Length == 0 || cmbTag.SelectedIndex < 0)
+            {
+                error = "* Title and Tag can not be empty.";
+                return false;
+            }
+            if (TxbTitle.Text.Length > 50)
+            {
+                error = "* Title should less than 50 character long.";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -235,7 +263,8 @@ namespace NoteKeeper
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try {
+            try
+            {
 
                 Note selectedNote = LvNote.SelectedItem as Note;
 
@@ -249,8 +278,8 @@ namespace NoteKeeper
                 LvNote.Items.Refresh();
                 ResetField();
             }
-                catch(SystemException ex)
-                {
+            catch (SystemException ex)
+            {
                 MessageBox.Show(this, "Error deleting from database\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -305,10 +334,10 @@ namespace NoteKeeper
             fd.InitialDirectory = @"C:\\";
             fd.Filter = "PNG (*.png) |*.png | JPEG(*.jpg;*jpeg)";
 
-            if(fd.ShowDialog() == true)
+            if (fd.ShowDialog() == true)
             {
                 var clipBoardData = Clipboard.GetDataObject();
-                BitmapImage bitmapImage= new BitmapImage(new Uri(fd.FileName, UriKind.Absolute));
+                BitmapImage bitmapImage = new BitmapImage(new Uri(fd.FileName, UriKind.Absolute));
                 Clipboard.SetImage(bitmapImage);
                 // TextBox.Paste(); //
                 Clipboard.SetDataObject(clipBoardData);
