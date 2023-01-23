@@ -5,6 +5,7 @@ namespace NoteKeeper
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
 
     [Table("User")]
     public class User
@@ -45,5 +46,18 @@ namespace NoteKeeper
 
         //navigation properties
         public List<Note> Notes { get; set; }
+
+        public List<string> validate(string property)
+        {
+            ValidationContext validationContext = new ValidationContext(this);
+            validationContext.MemberName = property;
+            List<ValidationResult> results = new List<ValidationResult>();
+            bool isValid = Validator.TryValidateObject(this, validationContext, results, false);
+            if (!isValid)
+            {
+                return results.Where(r => r.MemberNames.Contains(property)).Select(r => r.ErrorMessage).ToList();
+            }
+            return new List<string>();
+        }
     }
 }

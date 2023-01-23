@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NoteKeeper
 {
@@ -57,7 +48,7 @@ namespace NoteKeeper
                     }
                     else
                     {
-                        MessageBox.Show("Invalid username or password");
+                        MessageBox.Show(this, "Invalid username or password", "Login error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
@@ -84,7 +75,7 @@ namespace NoteKeeper
             User user = new User();
             user.UserName = TbxUsername.Text;
 
-            List<string> errors = validateUserObject(user, "UserName");
+            List<string> errors = user.validate("UserName");
             if (errors.Count > 0)
             {
                 error = errors[0];
@@ -100,26 +91,13 @@ namespace NoteKeeper
             User user = new User();
             user.Password = TbxPassword.Password;
 
-            List<string> errors = validateUserObject(user, "Password");
+            List<string> errors = user.validate("Password");
             if (errors.Count > 0)
             {
                 error = errors[0];
             }
 
             return setBindingValidation(TbxPassword, error);
-        }
-
-        private List<string> validateUserObject(User user, string property)
-        {
-            ValidationContext validationContext = new ValidationContext(user);
-            validationContext.MemberName = property;
-            List<System.ComponentModel.DataAnnotations.ValidationResult> results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-            bool isValid = Validator.TryValidateObject(user, validationContext, results, false);
-            if (!isValid)
-            {
-                return results.Where(r => r.MemberNames.Contains(property)).Select(r => r.ErrorMessage).ToList();
-            }
-            return new List<string>();
         }
 
         private void createBinding(Control control)
@@ -130,6 +108,7 @@ namespace NoteKeeper
         private bool setBindingValidation(Control control, string error)
         {
             var bindingExpression = control.GetBindingExpression(TagProperty);
+            Validation.ClearInvalid(bindingExpression);
             if (error != null)
             {
                 var validationError = new ValidationError(new ExceptionValidationRule(), bindingExpression);
@@ -137,11 +116,7 @@ namespace NoteKeeper
                 Validation.MarkInvalid(bindingExpression, validationError);
                 return false;
             }
-            else
-            {
-                Validation.ClearInvalid(bindingExpression);
-                return true;
-            }
+            return true;
         }
 
         private void TbxUsername_LostFocus(object sender, RoutedEventArgs e)
