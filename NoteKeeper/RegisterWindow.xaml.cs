@@ -41,5 +41,12 @@ namespace NoteKeeper
                 MessageBox.Show("Done");
             }
         }
+
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow MainWindow = new MainWindow();
+            MainWindow.Show();
+            this.Close();
+        }
     }
 }
