@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,6 +35,7 @@ namespace NoteKeeper
             {
                 Globals.dbContext = new NoteDbContext();
                 LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
+                //LvNote.ItemsSource = (from Note n in Globals.dbContext.Notes where n.UserId == Globals.activeUser.Id select n).ToList();
             }
             catch (SystemException ex)
             {
@@ -41,14 +44,21 @@ namespace NoteKeeper
 
             }
             cmbFontSize.ItemsSource = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+            List<string> comboSource = new List<string>();
+            foreach (Tag tag in Globals.dbContext.Tags)
+            {
+                comboSource.Add(tag.Name);
+            }
+            cmbTag.ItemsSource = comboSource;
+
         }
 
         // Will clean up the richTextBox
         private void ResetField()
         {
             TxbTitle.Text = string.Empty;
-            TxbTag.Text = string.Empty;
             RtxbNewNote.Document.Blocks.Clear();
+            cmbTag.SelectedIndex = -1;
 
         }
 
@@ -59,7 +69,7 @@ namespace NoteKeeper
             RtxbNewNote.Document = flowDoc;
             FlowDocument rtbContents = RtxbNewNote.Document;
             TxbTitle.Text = "";
-            TxbTag.Text = "";
+
 
         }
 
@@ -71,25 +81,42 @@ namespace NoteKeeper
                 MemoryStream ms = new MemoryStream();
                 tr.Save(ms, DataFormats.Rtf);
                 string NoteBodyData = ASCIIEncoding.Default.GetString(ms.ToArray());
+                Tag tag = (from t in Globals.dbContext.Tags where cmbTag.SelectedItem.ToString() == t.Name select t).FirstOrDefault<Tag>();
 
+                Note selectNote = LvNote.SelectedItem as Note;
 
-                Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, 2);
-                Globals.dbContext.Notes.Add(note);
-                //Globals.dbContext.Notes.Attach(note);
+                if (selectNote == null)
+                {
+                    Note note = new Note(TxbTitle.Text, NoteBodyData, DateTime.Now, DateTime.Now, Globals.activeUser.Id);
+                    note.Tags = new List<Tag>();
+                    note.Tags.Add(tag);
+                    Globals.dbContext.Notes.Add(note);
+                    Globals.dbContext.SaveChanges();
+                }
 
-                Tag tag = new Tag(TxbTag.Text);
-                Globals.dbContext.Tags.Add(tag);
-                //Globals.dbContext.Tags.Attach(tag);
+                else
+                {
 
-                note.Tags = new List<Tag>();
-                note.Tags.Add(tag);
+                    Note noteToUpdate = (from n in Globals.dbContext.Notes where selectNote.Id == n.Id select n).FirstOrDefault();
 
-                Globals.dbContext.SaveChanges();
+                    if (noteToUpdate != null)
+                    {
+                        noteToUpdate.Title = TxbTitle.Text;
+                        noteToUpdate.Body = NoteBodyData;
+                        noteToUpdate.LastModificationDate = DateTime.Now;
+
+                        noteToUpdate.Tags = new List<Tag>();
+                        noteToUpdate.Tags.Add(tag);
+                        Globals.dbContext.Notes.AddOrUpdate(noteToUpdate);
+                        Globals.dbContext.SaveChanges();
+                    }
+
+                }
                 LvNote.ItemsSource = Globals.dbContext.Notes.Include(x => x.Tags).ToList();
                 LvNote.Items.Refresh();
                 ResetField();
             }
-            catch(SystemException ex)
+            catch (SystemException ex)
             {
                 MessageBox.Show(this, "Error Saving in database. Check your inputs!\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -114,21 +141,20 @@ namespace NoteKeeper
             }
 
             //search by tag
-            //if (sender == btnSearchByTag)
-            //{
-            //    foreach (Tag tag in Globals.dbContext.Tags)
-            //    {
-            //        if (tag.Name.Contains(TxbSearch.Text))
-            //        {
-            //            var id = tag.Id;
-            //            var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
-            //            foreach (Note n in NoteList)
-            //            {
-            //                ListViewNote.Add(n);
-            //            }
-            //        }
-            //    }
-            //}
+            if (sender == btnSearchByTag)
+            {
+                foreach (Tag tag in Globals.dbContext.Tags)
+                {
+                    if (tag.Name.Contains(TxbSearch.Text))
+                    {
+                        var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
+                        foreach (Note n in NoteList)
+                        {
+                            ListViewNote.Add(n);
+                        }
+                    }
+                }
+            }
 
 
             //search by body
@@ -153,7 +179,8 @@ namespace NoteKeeper
         private void LvNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var note = LvNote.SelectedItem as Note;
-            if(note != null) {
+            if (note != null)
+            {
                 TxbTitle.Text = (note).Title; //ex : nullRefrenceException
                 TextRange tr = new TextRange(RtxbNewNote.Document.ContentStart, RtxbNewNote.Document.ContentEnd);
                 string selectedNote = (note).Body;
@@ -167,13 +194,21 @@ namespace NoteKeeper
                 //note.Tags.FirstOrDefault().Name;
                 try
                 {
-                    TxbTag.Text = note.Tags.FirstOrDefault().Name; //ex : nullRefrence TODO: if statement
+
+                    Tag t = (from tag in Globals.dbContext.Tags where tag.Notes.Any(y => y.Id == note.Id) select tag).First<Tag>();
+                    cmbTag.SelectedIndex = t.Id - 1;
+
                 }
-                catch(NullReferenceException ex)    
+                catch (SystemException ex)
                 {
-                    //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     Console.WriteLine(ex);
+                    cmbTag.SelectedIndex = -1;
                 }
+                //catch (NullReferenceException ex)
+                //{
+                //    //MessageBox.Show(this, "Error deleting from database\n" ,"Tag Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //    Console.WriteLine(ex);
+                //}
             }
 
         }
@@ -199,7 +234,7 @@ namespace NoteKeeper
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try { 
+            try {
 
                 Note selectedNote = LvNote.SelectedItem as Note;
 
@@ -213,8 +248,8 @@ namespace NoteKeeper
                 LvNote.Items.Refresh();
                 ResetField();
             }
-			catch(SystemException ex)
-            {
+                catch(SystemException ex)
+                {
                 MessageBox.Show(this, "Error deleting from database\n" + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -240,30 +275,9 @@ namespace NoteKeeper
             RtxbNewNote.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void cmbTag_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //fetch data from SQL database
-            List<Note> noteList = (from n in Globals.dbContext.Notes where n.UserId == 2 select n).ToList<Note>(); //FIX need to get UserId
-            List<Note> ListViewNote = new List<Note>();
-            List<string> SQLDataList = new List<string>();
 
-            //search by title
-            foreach (Note note in noteList)
-            {
-                if (note.Title.Contains(TxbSearch.Text))
-                {
-                    ListViewNote.Add(note);
-                }
-            }
-
-            //search by body
-            //foreach (Note note in noteList)
-            //{
-            //    if (note.Body.Contains(TxbSearch.Text))
-            //    {
-            //        ListViewNote.Add(note);
-            //    };
-            //}
         }
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
@@ -280,6 +294,23 @@ namespace NoteKeeper
                 pd.PrintDocument((((IDocumentPaginatorSource)RtxbNewNote.Document).DocumentPaginator),
 
                     "Print RichtextBox Content");
+
+            }
+        }
+        //FIXME:
+        private void InsertImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.InitialDirectory = @"C:\\";
+            fd.Filter = "PNG (*.png) |*.png | JPEG(*.jpg;*jpeg)";
+
+            if(fd.ShowDialog() == true)
+            {
+                var clipBoardData = Clipboard.GetDataObject();
+                BitmapImage bitmapImage= new BitmapImage(new Uri(fd.FileName, UriKind.Absolute));
+                Clipboard.SetImage(bitmapImage);
+                // TextBox.Paste(); //
+                Clipboard.SetDataObject(clipBoardData);
 
             }
         }
