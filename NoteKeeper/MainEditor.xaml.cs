@@ -281,8 +281,12 @@ namespace NoteKeeper
             {
 
                 Note selectedNote = LvNote.SelectedItem as Note;
+				if (selectedNote == null) return;
+				var result = MessageBox.Show(this, "Are you sure you want to delete this person?\n" + selectedNote, "" +
+				"Confirm deletion!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				if (result != MessageBoxResult.Yes) return;
 
-                if (selectedNote != null)
+				if (selectedNote != null && result == MessageBoxResult.Yes)
                 {
                     Globals.dbContext.Notes.Remove(selectedNote);
                     Globals.dbContext.SaveChanges();
