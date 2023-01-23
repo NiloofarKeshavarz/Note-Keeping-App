@@ -128,7 +128,7 @@ namespace NoteKeeper
                 }
                 else
                 {
-                    TxbTitle.Text = error;
+                    LblError.Content = error;
 
                 }
             }
@@ -177,28 +177,35 @@ namespace NoteKeeper
             }
 
             //search by tag
-            if (sender == btnSearchByTag)
-            {
-                foreach (Tag tag in Globals.dbContext.Tags)
-                {
-                    if (tag.Name.Contains(TxbSearch.Text))
-                    {
-                        var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
-                        foreach (Note n in NoteList)
-                        {
-                            ListViewNote.Add(n);
-                        }
-                    }
-                }
-            }
+            //if (sender == btnSearchByTag)
+            //{
+            //    foreach (Tag tag in Globals.dbContext.Tags)
+            //    {
+            //        if (tag.Name.Contains(TxbSearch.Text))
+            //        {
+            //            var NoteList = from note in Globals.dbContext.Notes where note.Tags.Any(t => t.Id == tag.Id) && note.UserId == Globals.activeUser.Id select note;
+            //            foreach (Note n in NoteList)
+            //            {
+            //                ListViewNote.Add(n);
+            //            }
+            //        }
+            //    }
+            //}
 
 
             //search by body
-            if (sender == btnSearchByTag)
+            if (sender == btnSearchByNote)
             {
                 foreach (Note note in noteList)
                 {
-                    if (note.Body.Contains(TxbSearch.Text) && note.UserId == Globals.activeUser.Id)
+                    //transfer string to memorystring
+                    RichTextBox rxb = new RichTextBox(); //a richtextbox to save memotryStream temp
+                    TextRange tr = new TextRange(rxb.Document.ContentStart, rxb.Document.ContentEnd);
+                    MemoryStream ms = GetMemoryStreamFromString(note.Body);
+                    tr.Load(ms, DataFormats.Rtf);
+
+                    //Console.WriteLine(tr.Text);
+                    if (tr.Text.Contains(TxbSearch.Text) && note.UserId == Globals.activeUser.Id)
                     {
                         ListViewNote.Add(note);
                     };

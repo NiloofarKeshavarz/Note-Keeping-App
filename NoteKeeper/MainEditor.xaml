@@ -102,9 +102,9 @@
                                 </StackPanel>
                                 <Run Text=""/>
                             </Paragraph>
-                       
+
                         </FlowDocument>
-                    
+
                     </RichTextBox>
                 </Border>
                 <Grid>
@@ -129,10 +129,12 @@
 
                 <Label Name="LblTitle" Grid.Column="2" Content="Title " HorizontalAlignment="Left" Margin="16,25,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
 
+                <Label Name="LblError"  Foreground="Red" Grid.Column="2" Margin="121,70,60,409"/>
+               
                 <TextBox Name="TxbTitle" Grid.Column="2" Margin="121,23,187,435" BorderThickness="1" BorderBrush="purple"></TextBox>
-                <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="22,77,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
-                <ComboBox Name="cmbTag" Grid.Column="2" HorizontalAlignment="Left" Margin="121,81,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.212,-0.041" TextBoxBase.TextChanged="cmbTag_TextChanged" SelectedIndex="0">
-                
+                <Label Name="LblTag" Grid.Column="2" Content="Tag " HorizontalAlignment="Left" Margin="21,97,0,0" VerticalAlignment="Top" FontWeight="Medium" Width="100" RenderTransformOrigin="0.394,0.394" FontSize="16"/>
+                <ComboBox Name="cmbTag" Grid.Column="2" HorizontalAlignment="Left" Margin="121,95,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.212,-0.041" TextBoxBase.TextChanged="cmbTag_TextChanged" SelectedIndex="0">
+
                 </ComboBox>
                 <!--<TextBox x:Name="TxbTag" Grid.Column="2" Margin="122,77,418,383" BorderThickness="1" BorderBrush="purple"></TextBox>-->
                 <Button Name="BtnNewNote" Content="New Note" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="1" Click="BtnNewNote_Click" />
@@ -140,7 +142,7 @@
                 <Button Name="BtnClear" Content="Clear" HorizontalAlignment="Left" Margin="145,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnClear_Click" />
                 <Button Name="BtnDelete" Content="Delete" HorizontalAlignment="Left" Margin="518,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnDelete_Click" />
                 <Button Name="BtnPrint" Content="Print" HorizontalAlignment="Left" Margin="400,421,0,0" VerticalAlignment="Top" Height="36" Width="98" Grid.Column="2" Click="BtnPrint_Click" />
-            
+
             </Grid>
 
         </DockPanel>
