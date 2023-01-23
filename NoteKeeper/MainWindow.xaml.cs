@@ -22,7 +22,10 @@ namespace NoteKeeper
             InitializeComponent();
         }
 
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+		public object RtxbNewNote { get; set; }
+		public object TxbTitle { get; set; }
+
+		private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = TbxUsername.Text;
             string password = TbxPassword.Password;
